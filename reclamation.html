@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEN GP - Réclamations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .mobile-frame {
+            width: 100%;
+            max-width: 375px;
+            height: 667px;
+            background: linear-gradient(135deg, rgba(15, 12, 41, 0.95) 0%, rgba(48, 43, 99, 0.95) 50%, rgba(36, 36, 62, 0.95) 100%);
+            border-radius: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .status-bar {
+            height: 44px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .time { color: #fff; }
+        .indicators {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        .signal, .wifi, .battery {
+            width: 18px;
+            height: 12px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 2px;
+        }
+
+        /* Header */
+        .header {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(-3px);
+        }
+
+        .header-title {
+            flex: 1;
+        }
+
+        .header-title h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .header-title p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Content */
+        .content {
+            height: calc(100% - 44px - 85px - 73px);
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .content::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px;
+            border-radius: 16px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px 16px;
+            background: transparent;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%);
+            color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+        }
+
+        /* New Claim Button */
+        .new-claim-btn {
+            width: 100%;
+            padding: 18px 20px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%);
+            border: none;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+            margin-bottom: 24px;
+        }
+
+        .new-claim-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(255, 107, 107, 0.5);
+        }
+
+        .btn-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .btn-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .btn-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 2px;
+        }
+
+        .btn-subtitle {
+            font-size: 12px;
+            color: rgba(26, 26, 46, 0.7);
+        }
+
+        /* Claim Cards */
+        .claim-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .claim-card:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .claim-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .claim-type {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .claim-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .claim-info h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .claim-id {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .claim-status {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: rgba(255, 230, 109, 0.2);
+            color: #FFE66D;
+            border: 1px solid rgba(255, 230, 109, 0.3);
+        }
+
+        .status-in-progress {
+            background: rgba(78, 205, 196, 0.2);
+            color: #4ECDC4;
+            border: 1px solid rgba(78, 205, 196, 0.3);
+        }
+
+        .status-resolved {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .status-rejected {
+            background: rgba(255, 107, 107, 0.2);
+            color: #FF6B6B;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .claim-description {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .claim-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .claim-date {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .claim-shipment {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .empty-description {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65px;
+            background: linear-gradient(180deg, rgba(15, 12, 41, 0.95) 0%, rgba(26, 22, 48, 0.98) 100%);
+            backdrop-filter: blur(30px);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            padding: 6px 10px;
+            border-radius: 12px;
+            flex: 1;
+            max-width: 70px;
+            position: relative;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(255, 230, 109, 0.15) 50%, rgba(78, 205, 196, 0.1) 100%);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            box-shadow: 0 8px 24px rgba(255, 107, 107, 0.25);
+            transform: translateY(-6px);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            filter: grayscale(0.8) brightness(0.7);
+            transition: all 0.4s ease;
+        }
+
+        .nav-item.active .nav-icon {
+            filter: grayscale(0) brightness(1.2);
+            transform: scale(1.1);
+        }
+
+        .nav-label {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .nav-item.active .nav-label {
+            background: linear-gradient(135deg, #FFE66D 0%, #FF6B6B 50%, #4ECDC4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .nav-badge {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            min-width: 18px;
+            height: 18px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF4757 100%);
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 800;
+            color: white;
+            padding: 0 5px;
+            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.6);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            width: 90%;
+            max-width: 340px;
+            background: linear-gradient(135deg, rgba(15, 12, 41, 0.98) 0%, rgba(48, 43, 99, 0.98) 100%);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            padding: 24px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .modal-subtitle {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .modal-body {
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 14px;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #4ECDC4;
+            box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.15);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .modal-footer {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%);
+            color: #1a1a2e;
+            font-weight: 700;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(255, 107, 107, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-frame">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span class="time">9:41</span>
+            <div class="indicators">
+                <div class="signal"></div>
+                <div class="wifi"></div>
+                <div class="battery"></div>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <div class="header-title">
+                <h1>Réclamations</h1>
+                <p>Gérez vos réclamations</p>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('active')">En cours (1)</button>
+                <button class="tab" onclick="switchTab('resolved')">Résolues (2)</button>
+            </div>
+
+            <!-- New Claim Button -->
+            <button class="new-claim-btn" onclick="openNewClaimModal()">
+                <div class="btn-icon">⚠️</div>
+                <div class="btn-text">
+                    <div class="btn-title">Nouvelle réclamation</div>
+                    <div class="btn-subtitle">Signalez un problème</div>
+                </div>
+                <div style="font-size: 20px; color: #1a1a2e;">→</div>
+            </button>
+
+            <!-- Active Claims -->
+            <div id="activeClaims">
+                <!-- Claim Card 1 -->
+                <div class="claim-card" onclick="viewClaimDetails('REC-001')">
+                    <div class="claim-header">
+                        <div class="claim-type">
+                            <div class="claim-icon">📦</div>
+                            <div class="claim-info">
+                                <h3>Colis endommagé</h3>
+                                <div class="claim-id">REC-001</div>
+                            </div>
+                        </div>
+                        <span class="claim-status status-in-progress">En traitement</span>
+                    </div>
+                    <p class="claim-description">
+                        Le colis est arrivé avec l'emballage déchiré et certains articles sont endommagés.
+                    </p>
+                    <div class="claim-footer">
+                        <span class="claim-date">Créé le 18 Oct 2025</span>
+                        <span class="claim-shipment">SG-20251015-C3D4</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resolved Claims (hidden by default) -->
+            <div id="resolvedClaims" style="display: none;">
+                <!-- Claim Card 2 -->
+                <div class="claim-card" onclick="viewClaimDetails('REC-002')">
+                    <div class="claim-header">
+                        <div class="claim-type">
+                            <div class="claim-icon">⏰</div>
+                            <div class="claim-info">
+                                <h3>Retard de livraison</h3>
+                                <div class="claim-id">REC-002</div>
+                            </div>
+                        </div>
+                        <span class="claim-status status-resolved">Résolue</span>
+                    </div>
+                    <p class="claim-description">
+                        Le colis a été livré avec 5 jours de retard. Demande de compensation.
+                    </p>
+                    <div class="claim-footer">
+                        <span class="claim-date">Résolue le 10 Oct 2025</span>
+                        <span class="claim-shipment">SG-20250928-X1Y2</span>
+                    </div>
+                </div>
+
+                <!-- Claim Card 3 -->
+                <div class="claim-card" onclick="viewClaimDetails('REC-003')">
+                    <div class="claim-header">
+                        <div class="claim-type">
+                            <div class="claim-icon">📍</div>
+                            <div class="claim-info">
+                                <h3>Problème de suivi</h3>
+                                <div class="claim-id">REC-003</div>
+                            </div>
+                        </div>
+                        <span class="claim-status status-resolved">Résolue</span>
+                    </div>
+                    <p class="claim-description">
+                        Le code de suivi ne fonctionnait pas pendant 2 jours.
+                    </p>
+                    <div class="claim-footer">
+                        <span class="claim-date">Résolue le 05 Oct 2025</span>
+                        <span class="claim-shipment">SG-20250920-Z3W4</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item" onclick="navigateTo('home')">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-label">Accueil</div>
+            </div>
+
+            <div class="nav-item active" onclick="navigateTo('reclamation')">
+                <div class="nav-icon">⚠️</div>
+                <div class="nav-label">Réclamation</div>
+                <div class="nav-badge">1</div>
+            </div>
+
+            <div class="nav-item" onclick="navigateTo('tracking')">
+                <div class="nav-icon">📍</div>
+                <div class="nav-label">Suivi</div>
+                <div class="nav-badge">3</div>
+            </div>
+
+            <div class="nav-item" onclick="navigateTo('notifications')">
+                <div class="nav-icon">🔔</div>
+                <div class="nav-label">Notifications</div>
+                <div class="nav-badge">5</div>
+            </div>
+
+            <div class="nav-item" onclick="navigateTo('profile')">
+                <div class="nav-icon">👤</div>
+                <div class="nav-label">Profil</div>
+            </div>
+        </div>
+
+        <!-- New Claim Modal -->
+        <div class="modal-overlay" id="newClaimModal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 class="modal-title">Nouvelle réclamation</h3>
+                    <p class="modal-subtitle">Décrivez votre problème en détail</p>
+                </div>
+                <div class="modal-body">
+                    <form id="claimForm">
+                        <div class="form-group">
+                            <label class="form-label">Numéro de colis</label>
+                            <input type="text" class="form-input" placeholder="Ex: SG-20251020-A1B2" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Type de réclamation</label>
+                            <select class="form-select" required>
+                                <option value="">Sélectionnez un type</option>
+                                <option value="damaged">Colis endommagé</option>
+                                <option value="lost">Colis perdu</option>
+                                <option value="delay">Retard de livraison</option>
+                                <option value="tracking">Problème de suivi</option>
+                                <option value="other">Autre</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Description détaillée</label>
+                            <textarea class="form-textarea" placeholder="Décrivez le problème rencontré..." required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-cancel" onclick="closeNewClaimModal()">Annuler</button>
+                    <button class="btn btn-submit" onclick="submitClaim()">Soumettre</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = 'dashexpediteur.html';
+        }
+
+        function switchTab(tab) {
+            // Update tab buttons
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Show/hide claim lists
+            if (tab === 'active') {
+                document.getElementById('activeClaims').style.display = 'block';
+                document.getElementById('resolvedClaims').style.display = 'none';
+            } else {
+                document.getElementById('activeClaims').style.display = 'none';
+                document.getElementById('resolvedClaims').style.display = 'block';
+            }
+        }
+
+        function openNewClaimModal() {
+            document.getElementById('newClaimModal').classList.add('show');
+        }
+
+        function closeNewClaimModal() {
+            document.getElementById('newClaimModal').classList.remove('show');
+            document.getElementById('claimForm').reset();
+        }
+
+        function submitClaim() {
+            alert('Réclamation soumise avec succès!\n\nVous recevrez une notification dès qu\'elle sera traitée.');
+            closeNewClaimModal();
+        }
+
+        function viewClaimDetails(claimId) {
+            alert(`Voir les détails de la réclamation\n\nID: ${claimId}\n\nInformations complètes, historique, messages, etc.`);
+        }
+
+        function navigateTo(section) {
+            const pages = {
+                'home': 'dashexpediteur.html',
+                'reclamation': 'reclamation.html',
+                'tracking': 'suivi.html',
+                'notifications': 'notifications.html',
+                'profile': 'profile.html'
+            };
+
+            if (pages[section]) {
+                window.location.href = pages[section];
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('newClaimModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeNewClaimModal();
+            }
+        });
+    </script>
+</body>
+</html>

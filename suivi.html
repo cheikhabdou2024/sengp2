@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEN GP - Suivi de Colis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .mobile-frame {
+            width: 100%;
+            max-width: 375px;
+            height: 667px;
+            background: linear-gradient(135deg, rgba(15, 12, 41, 0.95) 0%, rgba(48, 43, 99, 0.95) 50%, rgba(36, 36, 62, 0.95) 100%);
+            border-radius: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .status-bar {
+            height: 44px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .time { color: #fff; }
+        .indicators {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        .signal, .wifi, .battery {
+            width: 18px;
+            height: 12px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 2px;
+        }
+
+        /* Header */
+        .header {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(-3px);
+        }
+
+        .header-title {
+            flex: 1;
+        }
+
+        .header-title h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .header-title p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Content */
+        .content {
+            height: calc(100% - 44px - 85px - 73px);
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .content::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        /* QR Scanner Section */
+        .qr-scanner-section {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.15) 0%, rgba(255, 230, 109, 0.15) 100%);
+            border: 2px dashed rgba(255, 107, 107, 0.4);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            margin-bottom: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .qr-scanner-section:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(255, 107, 107, 0.3);
+            border-color: rgba(255, 107, 107, 0.6);
+        }
+
+        .qr-icon {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .qr-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .qr-description {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        /* Active Tracking Section */
+        .tracking-section {
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Tracking Card */
+        .tracking-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .tracking-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .tracking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .tracking-id {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .tracking-status {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: rgba(78, 205, 196, 0.2);
+            color: #4ECDC4;
+            border: 1px solid rgba(78, 205, 196, 0.3);
+        }
+
+        .status-delivered {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .route-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .route-location {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .route-flag {
+            font-size: 28px;
+        }
+
+        .route-text {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+        }
+
+        .route-arrow {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Progress Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 10px;
+            bottom: 10px;
+            width: 2px;
+            background: linear-gradient(to bottom, #4ECDC4 0%, rgba(78, 205, 196, 0.3) 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 24px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: -28px;
+            top: 0;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(78, 205, 196, 0.4);
+            z-index: 1;
+        }
+
+        .timeline-marker.pending {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: none;
+        }
+
+        .timeline-marker.pending::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+        }
+
+        .timeline-content h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .timeline-content p {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 4px;
+        }
+
+        .timeline-date {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* QR Code Display */
+        .qr-display {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 16px;
+            background: #ffffff;
+            border: 4px solid #4ECDC4;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+        }
+
+        .qr-info {
+            font-size: 13px;
+            color: #1a1a2e;
+            margin-bottom: 12px;
+        }
+
+        .download-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(78, 205, 196, 0.4);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65px;
+            background: linear-gradient(180deg, rgba(15, 12, 41, 0.95) 0%, rgba(26, 22, 48, 0.98) 100%);
+            backdrop-filter: blur(30px);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            padding: 6px 10px;
+            border-radius: 12px;
+            flex: 1;
+            max-width: 70px;
+            position: relative;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(255, 230, 109, 0.15) 50%, rgba(78, 205, 196, 0.1) 100%);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            box-shadow: 0 8px 24px rgba(255, 107, 107, 0.25);
+            transform: translateY(-6px);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            filter: grayscale(0.8) brightness(0.7);
+            transition: all 0.4s ease;
+        }
+
+        .nav-item.active .nav-icon {
+            filter: grayscale(0) brightness(1.2);
+            transform: scale(1.1);
+        }
+
+        .nav-label {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .nav-item.active .nav-label {
+            background: linear-gradient(135deg, #FFE66D 0%, #FF6B6B 50%, #4ECDC4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .nav-badge {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            min-width: 18px;
+            height: 18px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF4757 100%);
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 800;
+            color: white;
+            padding: 0 5px;
+            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.6);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 340px;
+            background: linear-gradient(135deg, rgba(15, 12, 41, 0.98) 0%, rgba(48, 43, 99, 0.98) 100%);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            padding: 24px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .modal-subtitle {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .modal-body {
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .upload-area {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 3px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #4ECDC4;
+        }
+
+        .upload-icon {
+            font-size: 60px;
+            margin-bottom: 12px;
+        }
+
+        .upload-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .modal-footer {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-close {
+            width: 100%;
+            padding: 14px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-close:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-frame">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span class="time">9:41</span>
+            <div class="indicators">
+                <div class="signal"></div>
+                <div class="wifi"></div>
+                <div class="battery"></div>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <div class="header-title">
+                <h1>Suivi de Colis</h1>
+                <p>Suivez vos colis en temps réel</p>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- QR Scanner Section -->
+            <div class="qr-scanner-section" onclick="openQRScanner()">
+                <div class="qr-icon">📷</div>
+                <h3 class="qr-title">Scanner un code QR</h3>
+                <p class="qr-description">Téléversez votre code QR pour suivre votre colis en temps réel</p>
+            </div>
+
+            <!-- Active Tracking -->
+            <div class="tracking-section">
+                <h2 class="section-title">
+                    <span>📦</span>
+                    Colis en cours (3)
+                </h2>
+
+                <!-- Tracking Card 1 -->
+                <div class="tracking-card">
+                    <div class="tracking-header">
+                        <span class="tracking-id">SG-20251020-A1B2</span>
+                        <span class="tracking-status status-active">En transit</span>
+                    </div>
+
+                    <div class="route-info">
+                        <div class="route-location">
+                            <span class="route-flag">🇸🇳</span>
+                            <span class="route-text">Dakar</span>
+                        </div>
+                        <span class="route-arrow">→</span>
+                        <div class="route-location">
+                            <span class="route-flag">🇫🇷</span>
+                            <span class="route-text">Paris</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker">✓</div>
+                            <div class="timeline-content">
+                                <h4>Colis récupéré</h4>
+                                <p>Dakar, Sénégal</p>
+                                <span class="timeline-date">18 Oct 2025, 10:30</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">✓</div>
+                            <div class="timeline-content">
+                                <h4>En transit vers l'aéroport</h4>
+                                <p>Aéroport Blaise Diagne</p>
+                                <span class="timeline-date">18 Oct 2025, 14:20</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">✈️</div>
+                            <div class="timeline-content">
+                                <h4>En vol</h4>
+                                <p>Vol Air Sénégal HC401</p>
+                                <span class="timeline-date">19 Oct 2025, 02:15</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker pending"></div>
+                            <div class="timeline-content">
+                                <h4>Arrivée prévue</h4>
+                                <p>Paris Charles de Gaulle</p>
+                                <span class="timeline-date">21 Oct 2025, 08:30</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tracking Card 2 -->
+                <div class="tracking-card">
+                    <div class="tracking-header">
+                        <span class="tracking-id">SG-20251018-X3Y4</span>
+                        <span class="tracking-status status-active">En attente</span>
+                    </div>
+
+                    <div class="route-info">
+                        <div class="route-location">
+                            <span class="route-flag">🇸🇳</span>
+                            <span class="route-text">Dakar</span>
+                        </div>
+                        <span class="route-arrow">→</span>
+                        <div class="route-location">
+                            <span class="route-flag">🇺🇸</span>
+                            <span class="route-text">New York</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker">✓</div>
+                            <div class="timeline-content">
+                                <h4>Commande confirmée</h4>
+                                <p>En attente de récupération</p>
+                                <span class="timeline-date">20 Oct 2025, 15:00</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker pending"></div>
+                            <div class="timeline-content">
+                                <h4>Récupération prévue</h4>
+                                <p>Par le GP Amadou D.</p>
+                                <span class="timeline-date">22 Oct 2025</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item" onclick="navigateTo('home')">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-label">Accueil</div>
+            </div>
+
+            <div class="nav-item" onclick="navigateTo('reclamation')">
+                <div class="nav-icon">⚠️</div>
+                <div class="nav-label">Réclamation</div>
+                <div class="nav-badge">1</div>
+            </div>
+
+            <div class="nav-item active" onclick="navigateTo('tracking')">
+                <div class="nav-icon">📍</div>
+                <div class="nav-label">Suivi</div>
+                <div class="nav-badge">3</div>
+            </div>
+
+            <div class="nav-item" onclick="navigateTo('notifications')">
+                <div class="nav-icon">🔔</div>
+                <div class="nav-label">Notifications</div>
+                <div class="nav-badge">5</div>
+            </div>
+
+            <div class="nav-item" onclick="navigateTo('profile')">
+                <div class="nav-icon">👤</div>
+                <div class="nav-label">Profil</div>
+            </div>
+        </div>
+
+        <!-- QR Scanner Modal -->
+        <div class="modal-overlay" id="qrModal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 class="modal-title">Scanner le code QR</h3>
+                    <p class="modal-subtitle">Téléversez le code QR de votre colis</p>
+                </div>
+                <div class="modal-body">
+                    <div class="upload-area" onclick="selectQRFile()">
+                        <div class="upload-icon">📸</div>
+                        <div class="upload-text">Cliquez pour sélectionner</div>
+                    </div>
+                    <input type="file" id="qrFileInput" accept="image/*" style="display: none;" onchange="handleQRUpload()">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-close" onclick="closeQRModal()">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = 'dashexpediteur.html';
+        }
+
+        function openQRScanner() {
+            document.getElementById('qrModal').classList.add('show');
+        }
+
+        function closeQRModal() {
+            document.getElementById('qrModal').classList.remove('show');
+        }
+
+        function selectQRFile() {
+            document.getElementById('qrFileInput').click();
+        }
+
+        function handleQRUpload() {
+            const file = document.getElementById('qrFileInput').files[0];
+            if (file) {
+                alert(`Code QR scanné avec succès!\n\nColis: SG-20251020-A1B2\nStatut: En transit\n\nVous pouvez maintenant suivre votre colis en temps réel.`);
+                closeQRModal();
+            }
+        }
+
+        function navigateTo(section) {
+            const pages = {
+                'home': 'dashexpediteur.html',
+                'reclamation': 'reclamation.html',
+                'tracking': 'suivi.html',
+                'notifications': 'notifications.html',
+                'profile': 'profile.html'
+            };
+
+            if (pages[section]) {
+                window.location.href = pages[section];
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('qrModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeQRModal();
+            }
+        });
+    </script>
+</body>
+</html>
