@@ -782,10 +782,392 @@
             color: #FF6B6B;
         }
 
-        @media (max-width: 375px) {
+        /* ============================================
+           RESPONSIVE DESIGN - ANDROID DEVICES
+           ============================================ */
+
+        /* Remove desktop frame on mobile */
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+            }
+
             .mobile-frame {
-                border-radius: 0;
+                max-width: 100%;
                 height: 100vh;
+                height: 100dvh; /* Dynamic viewport height for mobile browsers */
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            .status-bar {
+                height: 40px;
+                padding: 0 16px;
+            }
+
+            .time {
+                font-size: 13px;
+            }
+
+            .signal, .wifi, .battery {
+                width: 16px;
+                height: 11px;
+            }
+        }
+
+        /* Small phones (320px - 375px) */
+        @media (max-width: 375px) {
+            h1 {
+                font-size: 22px;
+                margin-bottom: 14px;
+            }
+
+            .text-content p {
+                font-size: 13px;
+                margin-bottom: 20px;
+            }
+
+            .illustration {
+                height: 45%;
+            }
+
+            .map-container {
+                height: 120px;
+                margin-bottom: 14px;
+            }
+
+            .money-container {
+                height: 180px;
+                margin: 25px 0 18px;
+            }
+
+            .wallet {
+                width: 90px;
+                height: 90px;
+            }
+
+            .wallet::before {
+                font-size: 45px;
+            }
+
+            .stats-container {
+                gap: 10px;
+                padding: 0 25px;
+            }
+
+            .stat-card {
+                padding: 14px;
+            }
+
+            .stat-value {
+                font-size: 20px;
+            }
+
+            .benefits-list {
+                padding: 0 25px;
+            }
+
+            .benefit-item {
+                padding: 10px 0;
+            }
+
+            /* Account Type Cards */
+            .account-type-content {
+                padding: 25px 20px 18px;
+            }
+
+            .logo {
+                width: 70px;
+                height: 70px;
+                font-size: 36px;
+            }
+
+            .header-text {
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .subtitle {
+                font-size: 13px;
+            }
+
+            .account-card {
+                padding: 18px;
+            }
+
+            .card-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 26px;
+            }
+
+            .card-title h3 {
+                font-size: 18px;
+            }
+
+            .card-description {
+                font-size: 12px;
+            }
+
+            .feature-tag {
+                font-size: 11px;
+                padding: 5px 10px;
+            }
+
+            .continue-btn {
+                padding: 14px;
+                font-size: 15px;
+            }
+
+            .login-link {
+                font-size: 13px;
+            }
+
+            /* Bottom navigation */
+            .bottom-nav {
+                padding: 14px 25px 25px;
+            }
+
+            .btn {
+                padding: 11px 20px;
+                font-size: 13px;
+            }
+        }
+
+        /* Medium phones (376px - 414px) */
+        @media (min-width: 376px) and (max-width: 414px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            .illustration {
+                height: 48%;
+            }
+
+            .map-container {
+                height: 130px;
+            }
+
+            .money-container {
+                height: 190px;
+            }
+        }
+
+        /* Large phones (415px - 480px) */
+        @media (min-width: 415px) and (max-width: 480px) {
+            h1 {
+                font-size: 26px;
+            }
+
+            .text-content p {
+                font-size: 15px;
+            }
+
+            .illustration {
+                height: 50%;
+            }
+
+            .map-container {
+                height: 150px;
+            }
+
+            .money-container {
+                height: 210px;
+            }
+
+            .wallet {
+                width: 110px;
+                height: 110px;
+            }
+
+            .wallet::before {
+                font-size: 55px;
+            }
+
+            .stat-value {
+                font-size: 26px;
+            }
+        }
+
+        /* Tablets and large screens (481px+) */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .mobile-frame {
+                max-width: 480px;
+                margin: 0 auto;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .text-content p {
+                font-size: 15px;
+            }
+
+            .illustration {
+                height: 52%;
+            }
+
+            .map-container {
+                height: 160px;
+            }
+
+            .money-container {
+                height: 220px;
+            }
+
+            .wallet {
+                width: 120px;
+                height: 120px;
+            }
+
+            .wallet::before {
+                font-size: 60px;
+            }
+
+            .account-card {
+                padding: 22px;
+            }
+
+            .card-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 30px;
+            }
+        }
+
+        /* Landscape orientation adjustments */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .illustration {
+                height: 40%;
+            }
+
+            .text-content {
+                padding: 20px 30px 15px;
+            }
+
+            h1 {
+                font-size: 20px;
+                margin-bottom: 10px;
+            }
+
+            .text-content p {
+                font-size: 12px;
+                margin-bottom: 16px;
+            }
+
+            .map-container {
+                height: 100px;
+                margin-bottom: 10px;
+            }
+
+            .money-container {
+                height: 140px;
+                margin: 20px 0 15px;
+            }
+
+            .wallet {
+                width: 80px;
+                height: 80px;
+            }
+
+            .wallet::before {
+                font-size: 40px;
+            }
+
+            .stats-container {
+                gap: 8px;
+            }
+
+            .stat-card {
+                padding: 12px;
+            }
+
+            .stat-value {
+                font-size: 18px;
+            }
+
+            .benefits-list {
+                margin-bottom: 15px;
+            }
+
+            .benefit-item {
+                padding: 8px 0;
+            }
+
+            .bottom-nav {
+                padding: 12px 25px 20px;
+            }
+
+            .btn {
+                padding: 10px 18px;
+                font-size: 13px;
+            }
+
+            /* Account type adjustments for landscape */
+            .account-type-content {
+                padding: 20px 25px 15px;
+            }
+
+            .logo {
+                width: 60px;
+                height: 60px;
+                font-size: 32px;
+                margin-bottom: 15px;
+            }
+
+            .header-text {
+                margin-bottom: 18px;
+            }
+
+            .account-types {
+                gap: 12px;
+            }
+
+            .account-card {
+                padding: 16px;
+            }
+
+            .continue-btn {
+                padding: 12px;
+                margin-top: 12px;
+                margin-bottom: 12px;
+            }
+        }
+
+        /* Extra safe area for devices with notch */
+        @supports (padding: max(0px)) {
+            .status-bar {
+                padding-left: max(20px, env(safe-area-inset-left));
+                padding-right: max(20px, env(safe-area-inset-right));
+            }
+
+            .bottom-nav {
+                padding-bottom: max(30px, env(safe-area-inset-bottom));
+            }
+
+            .account-type-content {
+                padding-bottom: max(20px, env(safe-area-inset-bottom));
+            }
+        }
+
+        /* High DPI screens */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .hero-image {
+                image-rendering: -webkit-optimize-contrast;
+                image-rendering: crisp-edges;
+            }
+        }
+
+        /* Accessibility - Reduce motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
@@ -1188,13 +1570,15 @@
 
         function continueToSignup() {
             if (selectedAccountType) {
-                alert(`Navigation vers l'inscription\nType de compte: ${selectedAccountType === 'sender' ? 'Expéditeur' : 'Gros Porteur (GP)'}\n\nDans la version complète, vous seriez redirigé vers l'écran d'inscription.`);
+                // Rediriger vers la page d'inscription avec le type de compte
+                window.location.href = `inscrire.html?type=${selectedAccountType}`;
             }
         }
 
         function goToLogin() {
             event.preventDefault();
-            alert('Navigation vers l\'écran de connexion\n\nDans la version complète, vous seriez redirigé vers l\'écran de connexion.');
+            // Rediriger vers la page de connexion
+            window.location.href = 'connexion.html';
         }
 
         // Animation on load
