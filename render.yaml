@@ -1,6 +1,6 @@
 services:
   # PostgreSQL Database
-  - type: pgsql
+  - type: postgres
     name: sengp-db
     databaseName: sengp_production
     plan: free
@@ -34,3 +34,4 @@ services:
       - key: BCRYPT_ROUNDS
         value: 10
     autoDeploy: true
+
