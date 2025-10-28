@@ -3,21 +3,34 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const poolConfig: PoolConfig = {
-  host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT || '5432'),
-  database: process.env.DB_NAME || 'sengp_db',
-  user: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD,
-  max: 20, // Maximum number of clients in the pool
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
-};
+let poolConfig: PoolConfig;
 
-// Add SSL configuration for production
-if (process.env.NODE_ENV === 'production' && process.env.DB_SSL === 'true') {
-  poolConfig.ssl = {
-    rejectUnauthorized: false
+// Use DATABASE_URL if available (production), otherwise use individual variables (development)
+if (process.env.DATABASE_URL) {
+  poolConfig = {
+    connectionString: process.env.DATABASE_URL,
+    max: 20,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000,
+  };
+
+  // Add SSL for production databases
+  if (process.env.NODE_ENV === 'production') {
+    poolConfig.ssl = {
+      rejectUnauthorized: false
+    };
+  }
+} else {
+  // Development configuration with individual variables
+  poolConfig = {
+    host: process.env.DB_HOST || 'localhost',
+    port: parseInt(process.env.DB_PORT || '5432'),
+    database: process.env.DB_NAME || 'sengp_db',
+    user: process.env.DB_USER || 'postgres',
+    password: process.env.DB_PASSWORD,
+    max: 20,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000,
   };
 }
 
