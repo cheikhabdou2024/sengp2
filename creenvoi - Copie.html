@@ -316,551 +316,6 @@
             font-size: 22px;
         }
 
-        /* WhatsApp-Style Audio Recording Controls */
-        .audio-controls {
-            margin-top: 12px;
-            display: none;
-        }
-
-        .audio-controls.active {
-            display: block;
-        }
-
-        /* Recording Interface - WhatsApp Style */
-        .recording-interface {
-            background: linear-gradient(135deg, #DCF8C6 0%, #B8E6A0 100%);
-            border-radius: 12px;
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .recording-mic-icon {
-            width: 48px;
-            height: 48px;
-            background: #25D366;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            animation: pulse-mic 1.5s ease-in-out infinite;
-            flex-shrink: 0;
-        }
-
-        @keyframes pulse-mic {
-            0%, 100% {
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
-            }
-            50% {
-                transform: scale(1.05);
-                box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
-            }
-        }
-
-        .recording-info {
-            flex: 1;
-        }
-
-        .recording-timer {
-            font-size: 18px;
-            font-weight: 600;
-            color: #075E54;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            margin-bottom: 4px;
-        }
-
-        .recording-hint {
-            font-size: 12px;
-            color: #128C7E;
-        }
-
-        .recording-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .rec-action-btn {
-            width: 40px;
-            height: 40px;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            transition: all 0.2s ease;
-            flex-shrink: 0;
-        }
-
-        .rec-action-btn.pause {
-            background: #FFA726;
-        }
-
-        .rec-action-btn.stop {
-            background: #EF5350;
-        }
-
-        .rec-action-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .rec-action-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* Audio Message Bubble - WhatsApp Style */
-        .audio-message-bubble {
-            margin-top: 12px;
-            background: #DCF8C6;
-            border-radius: 12px;
-            padding: 12px;
-            display: none;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-        }
-
-        .audio-message-bubble.active {
-            display: block;
-        }
-
-        .audio-bubble-content {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .play-button {
-            width: 42px;
-            height: 42px;
-            background: #25D366;
-            border: none;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            flex-shrink: 0;
-        }
-
-        .play-button:hover {
-            background: #20BA5A;
-            transform: scale(1.05);
-        }
-
-        .play-button:active {
-            transform: scale(0.95);
-        }
-
-        .play-icon {
-            width: 0;
-            height: 0;
-            border-left: 12px solid white;
-            border-top: 8px solid transparent;
-            border-bottom: 8px solid transparent;
-            margin-left: 3px;
-        }
-
-        .pause-icon {
-            display: flex;
-            gap: 3px;
-        }
-
-        .pause-icon::before,
-        .pause-icon::after {
-            content: '';
-            width: 3px;
-            height: 14px;
-            background: white;
-            border-radius: 1px;
-        }
-
-        .audio-waveform {
-            flex: 1;
-            position: relative;
-        }
-
-        .waveform-progress {
-            height: 32px;
-            background: rgba(37, 211, 102, 0.2);
-            border-radius: 16px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .waveform-bars {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding: 0 8px;
-        }
-
-        .waveform-bar {
-            width: 3px;
-            background: #25D366;
-            border-radius: 2px;
-            opacity: 0.6;
-        }
-
-        .waveform-progress-fill {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            background: rgba(37, 211, 102, 0.3);
-            border-radius: 16px;
-            width: 0%;
-            transition: width 0.1s linear;
-        }
-
-        .audio-duration {
-            font-size: 13px;
-            color: #667781;
-            font-weight: 500;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            white-space: nowrap;
-        }
-
-        .delete-audio-btn {
-            width: 32px;
-            height: 32px;
-            background: rgba(239, 83, 80, 0.1);
-            border: none;
-            border-radius: 50%;
-            color: #EF5350;
-            font-size: 18px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            flex-shrink: 0;
-        }
-
-        .delete-audio-btn:hover {
-            background: rgba(239, 83, 80, 0.2);
-            transform: scale(1.1);
-        }
-
-        /* Location Picker Styles */
-        .location-picker {
-            background: #ffffff;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .location-picker:hover {
-            border-color: #4ECDC4;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(78, 205, 196, 0.2);
-        }
-
-        .location-flag {
-            font-size: 32px;
-            flex-shrink: 0;
-        }
-
-        .location-info {
-            flex: 1;
-        }
-
-        .location-label {
-            font-size: 12px;
-            color: rgba(26, 26, 46, 0.6);
-            margin-bottom: 2px;
-        }
-
-        .location-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1a1a2e;
-        }
-
-        .chevron {
-            font-size: 24px;
-            color: rgba(26, 26, 46, 0.3);
-            flex-shrink: 0;
-        }
-
-        /* Modal Styles */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            border-radius: 20px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 80vh;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            animation: slideUp 0.3s ease;
-        }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-header h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: #ffffff;
-            margin: 0;
-        }
-
-        .modal-close {
-            width: 32px;
-            height: 32px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 50%;
-            color: #ffffff;
-            font-size: 24px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .modal-close:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: rotate(90deg);
-        }
-
-        .search-box {
-            padding: 15px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            color: #ffffff;
-            font-size: 15px;
-        }
-
-        .search-box input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .locations-list {
-            max-height: 50vh;
-            overflow-y: auto;
-            padding: 10px;
-        }
-
-        .location-item {
-            padding: 14px 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .location-item:hover {
-            background: rgba(78, 205, 196, 0.2);
-            transform: translateX(5px);
-        }
-
-        .location-item-flag {
-            font-size: 28px;
-            flex-shrink: 0;
-        }
-
-        .location-item-info {
-            flex: 1;
-        }
-
-        .location-item-country {
-            font-size: 15px;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 2px;
-        }
-
-        .location-item-city {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        /* Phone Input with Country Code */
-        .phone-input-container {
-            display: flex;
-            gap: 10px;
-        }
-
-        .country-code-selector {
-            background: #ffffff;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            padding: 14px 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            flex-shrink: 0;
-            min-width: 120px;
-        }
-
-        .country-code-selector:hover {
-            border-color: #4ECDC4;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(78, 205, 196, 0.2);
-        }
-
-        .selected-flag {
-            font-size: 24px;
-        }
-
-        .selected-code {
-            font-size: 15px;
-            font-weight: 600;
-            color: #1a1a2e;
-            flex: 1;
-        }
-
-        .dropdown-arrow {
-            font-size: 10px;
-            color: rgba(26, 26, 46, 0.5);
-        }
-
-        .phone-input-container input {
-            flex: 1;
-        }
-
-        /* Media Upload Section */
-        .media-upload-section {
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(78, 205, 196, 0.1);
-            border: 2px dashed rgba(78, 205, 196, 0.3);
-            border-radius: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .media-upload-section:hover {
-            background: rgba(78, 205, 196, 0.15);
-            border-color: rgba(78, 205, 196, 0.5);
-        }
-
-        .media-upload-section.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-
-        .upload-icon {
-            font-size: 48px;
-            margin-bottom: 10px;
-        }
-
-        .upload-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 5px;
-        }
-
-        .upload-subtitle {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .media-preview {
-            margin-top: 15px;
-            display: none;
-            position: relative;
-        }
-
-        .media-preview.active {
-            display: block;
-        }
-
-        .media-preview img,
-        .media-preview video {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 10px;
-            object-fit: cover;
-        }
-
-        .remove-media-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 30px;
-            height: 30px;
-            background: rgba(255, 71, 87, 0.9);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .remove-media-btn:hover {
-            background: #FF4757;
-            transform: scale(1.1);
-        }
-
         .voice-recording {
             margin-top: 12px;
             padding: 15px;
@@ -1513,160 +968,6 @@
             color: #4CAF50;
         }
 
-        /* QR Code Success Modal */
-        .qr-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .qr-modal.active {
-            display: flex;
-        }
-
-        .qr-content {
-            background: linear-gradient(135deg, rgba(15, 12, 41, 0.98) 0%, rgba(48, 43, 99, 0.98) 100%);
-            border-radius: 24px;
-            padding: 32px;
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-            animation: slideUp 0.4s ease;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .qr-success-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            margin: 0 auto 24px;
-            animation: scaleIn 0.5s ease 0.2s backwards;
-        }
-
-        @keyframes scaleIn {
-            from {
-                transform: scale(0);
-            }
-            to {
-                transform: scale(1);
-            }
-        }
-
-        .qr-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 12px;
-        }
-
-        .qr-subtitle {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 24px;
-        }
-
-        .qr-code-container {
-            background: white;
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 20px;
-            display: inline-block;
-        }
-
-        .qr-code-canvas {
-            display: block;
-        }
-
-        .serial-number-box {
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px dashed rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 24px;
-        }
-
-        .serial-label {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .serial-number {
-            font-size: 24px;
-            font-weight: 800;
-            color: #FFE66D;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 2px;
-        }
-
-        .qr-actions {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .qr-btn {
-            flex: 1;
-            padding: 14px;
-            border: none;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .qr-btn-primary {
-            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%);
-            color: #1a1a2e;
-        }
-
-        .qr-btn-secondary {
-            background: rgba(255, 255, 255, 0.08);
-            color: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .qr-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .qr-info-text {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
-            line-height: 1.6;
-        }
-
         .terms-checkbox {
             margin-top: 20px;
         }
@@ -1904,7 +1205,7 @@
             <div class="step-content active" data-step="1">
                 <div class="form-group">
                     <label>Type de colis <span class="required">*</span></label>
-                    <select id="packageType" onchange="validateForm()">
+                    <select id="packageType">
                         <option value="">Sélectionner...</option>
                         <option value="documents">📄 Documents</option>
                         <option value="clothes">👕 Vêtements</option>
@@ -1916,81 +1217,45 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Description du colis (texte ou audio)</label>
+                    <label>Description du colis <span class="required">*</span></label>
                     <div class="description-container">
-                        <textarea
-                            id="description"
+                        <textarea 
+                            id="description" 
                             placeholder="Décrivez le contenu du colis..."
                             maxlength="500"
                             rows="4"
-                            oninput="validateForm()"
                         ></textarea>
-                        <button type="button" class="voice-btn" id="voiceBtn" onclick="openAudioControls()" title="Enregistrer un message audio">
+                        <button type="button" class="voice-btn" id="voiceBtn" onclick="toggleVoiceRecording()">
                             <span class="voice-icon">🎤</span>
                         </button>
                     </div>
                     <div class="char-counter">
                         <span id="charCount">0</span> / 500 caractères
                     </div>
-
-                    <!-- WhatsApp-Style Audio Recording Controls -->
-                    <div class="audio-controls" id="audioControls">
-                        <div class="recording-interface" id="recordingInterface" style="display: none;">
-                            <div class="recording-mic-icon">🎤</div>
-                            <div class="recording-info">
-                                <div class="recording-timer" id="recordingTimer">0:00</div>
-                                <div class="recording-hint">Glissez pour annuler</div>
-                            </div>
-                            <div class="recording-actions">
-                                <button type="button" class="rec-action-btn pause" id="pauseBtn" onclick="pauseRecording()">
-                                    ⏸️
-                                </button>
-                                <button type="button" class="rec-action-btn stop" id="stopBtn" onclick="stopRecording()">
-                                    ⏹️
-                                </button>
-                            </div>
+                    <div class="voice-recording" id="voiceRecording" style="display: none;">
+                        <div class="recording-animation">
+                            <span class="pulse-dot"></span>
                         </div>
-
-                        <button type="button" class="audio-btn audio-btn-start" id="startBtn" onclick="startRecording()" style="width: 100%; padding: 14px; border-radius: 12px; background: linear-gradient(135deg, #25D366 0%, #20BA5A 100%); color: white; border: none; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                            🎤 Commencer l'enregistrement
-                        </button>
-                    </div>
-
-                    <!-- Audio Message Bubble -->
-                    <div class="audio-message-bubble" id="audioMessageBubble">
-                        <div class="audio-bubble-content">
-                            <button type="button" class="play-button" id="playButton" onclick="toggleAudioPlayback()">
-                                <div class="play-icon" id="playIcon"></div>
-                            </button>
-                            <div class="audio-waveform">
-                                <div class="waveform-progress">
-                                    <div class="waveform-progress-fill" id="waveformFill"></div>
-                                    <div class="waveform-bars" id="waveformBars">
-                                        <!-- Waveform bars will be generated -->
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="audio-duration" id="audioDuration">0:00</div>
-                            <button type="button" class="delete-audio-btn" onclick="deleteAudio()" title="Supprimer l'audio">
-                                🗑️
-                            </button>
-                        </div>
+                        <div class="recording-text">Enregistrement en cours...</div>
+                        <div class="recording-timer" id="recordingTimer">00:00</div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Photo ou vidéo du colis (optionnel)</label>
-                    <input type="file" accept="image/*,video/*" id="mediaInput" style="display: none;" onchange="handleMediaUpload(event)" />
-
-                    <div class="media-upload-section" id="mediaUploadSection" onclick="document.getElementById('mediaInput').click()">
-                        <div class="upload-icon">📸</div>
-                        <div class="upload-title">Ajouter une photo ou vidéo</div>
-                        <div class="upload-subtitle">Une seule image ou vidéo (max 50MB)</div>
-                    </div>
-
-                    <div class="media-preview" id="mediaPreview">
-                        <div id="previewContent"></div>
-                        <button type="button" class="remove-media-btn" onclick="removeMedia()">×</button>
+                    <label>Photo ou vidéo du colis <span class="required">*</span></label>
+                    <div class="media-upload-container">
+                        <label class="media-upload-box">
+                            <input type="file" accept="image/*,video/*" id="mediaUpload" onchange="handleMediaUpload(event)" />
+                            <div class="upload-icon">📸</div>
+                            <div class="upload-text">
+                                <div class="upload-title">Ajouter une photo ou vidéo</div>
+                                <div class="upload-subtitle">Appuyez pour sélectionner</div>
+                            </div>
+                        </label>
+                        <div id="mediaPreview" class="media-preview" style="display: none;">
+                            <div id="previewContent"></div>
+                            <button type="button" class="remove-media" onclick="removeMedia()">×</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1998,78 +1263,36 @@
             <!-- Step 2: Addresses -->
             <div class="step-content" data-step="2">
                 <div class="form-group">
-                    <label>Pays et ville de départ <span class="required">*</span></label>
-                    <div class="location-picker" id="departureLocation" onclick="openLocationModal('departure')">
-                        <span class="location-flag" id="departureFlag">🌍</span>
-                        <div class="location-info">
-                            <div class="location-label">Départ</div>
-                            <div class="location-name" id="departureName">Sélectionner...</div>
+                    <label>Route <span class="required">*</span></label>
+                    <div class="country-selector">
+                        <div class="country-picker" onclick="alert('Sélectionner pays de départ')">
+                            <span class="flag">🇸🇳</span>
+                            <div class="country-info">
+                                <div class="country-label">Départ</div>
+                                <div class="country-name">Dakar</div>
+                            </div>
                         </div>
-                        <span class="chevron">›</span>
+                        
+                        <span class="arrow-separator">→</span>
+                        
+                        <div class="country-picker" onclick="alert('Sélectionner pays d\'arrivée')">
+                            <span class="flag">🇫🇷</span>
+                            <div class="country-info">
+                                <div class="country-label">Arrivée</div>
+                                <div class="country-name">Paris</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Pays et ville d'arrivée <span class="required">*</span></label>
-                    <div class="location-picker" id="arrivalLocation" onclick="openLocationModal('arrival')">
-                        <span class="location-flag" id="arrivalFlag">🌍</span>
-                        <div class="location-info">
-                            <div class="location-label">Arrivée</div>
-                            <div class="location-name" id="arrivalName">Sélectionner...</div>
-                        </div>
-                        <span class="chevron">›</span>
-                    </div>
+                    <label>Adresse de livraison <span class="required">*</span></label>
+                    <input type="text" id="deliveryAddress" placeholder="Adresse complète de livraison" />
                 </div>
 
                 <div class="form-group">
                     <label>Contact destinataire <span class="required">*</span></label>
-                    <div class="phone-input-container">
-                        <div class="country-code-selector" id="countryCodeBtn" onclick="openCountryCodeModal()">
-                            <span class="selected-flag" id="selectedFlag">🇸🇳</span>
-                            <span class="selected-code" id="selectedCode">+221</span>
-                            <span class="dropdown-arrow">▼</span>
-                        </div>
-                        <input type="tel" id="receiverPhone" placeholder="77 123 45 67" oninput="validateStep2()" />
-                    </div>
-                    <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6); margin-top: 6px;">
-                        📞 Téléphone du destinataire pour la livraison
-                    </div>
-                </div>
-            </div>
-
-            <!-- Location Selection Modal -->
-            <div class="modal" id="locationModal" onclick="closeLocationModal(event)">
-                <div class="modal-content location-modal-content" onclick="event.stopPropagation()">
-                    <div class="modal-header">
-                        <h3 id="modalTitle">Sélectionner le lieu</h3>
-                        <button class="modal-close" onclick="closeLocationModal()">×</button>
-                    </div>
-
-                    <div class="search-box">
-                        <input type="text" id="locationSearch" placeholder="🔍 Rechercher un pays ou une ville..." onkeyup="filterLocations()" />
-                    </div>
-
-                    <div class="locations-list" id="locationsList">
-                        <!-- Locations will be populated by JavaScript -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Country Code Selection Modal -->
-            <div class="modal" id="countryCodeModal" onclick="closeCountryCodeModal(event)">
-                <div class="modal-content location-modal-content" onclick="event.stopPropagation()">
-                    <div class="modal-header">
-                        <h3>Sélectionner l'indicatif</h3>
-                        <button class="modal-close" onclick="closeCountryCodeModal()">×</button>
-                    </div>
-
-                    <div class="search-box">
-                        <input type="text" id="countryCodeSearch" placeholder="🔍 Rechercher un pays..." onkeyup="filterCountryCodes()" />
-                    </div>
-
-                    <div class="locations-list" id="countryCodesList">
-                        <!-- Country codes will be populated by JavaScript -->
-                    </div>
+                    <input type="tel" id="receiverPhone" placeholder="+33 6 12 34 56 78" />
                 </div>
             </div>
 
@@ -2256,48 +1479,34 @@
             <!-- Step 4: Payment -->
             <div class="step-content" data-step="4">
                 <!-- Order Summary -->
-                <div class="summary-card" id="orderSummary">
+                <div class="summary-card">
                     <div class="summary-header">
                         <h3>Récapitulatif</h3>
-                        <button type="button" class="edit-btn" onclick="editStep(2)">Modifier</button>
-                    </div>
-
-                    <div class="summary-item">
-                        <div class="summary-row">
-                            <span class="summary-label">Type de colis</span>
-                            <span class="summary-value" id="summaryPackageType">-</span>
-                        </div>
+                        <button type="button" class="edit-btn" onclick="editStep(3)">Modifier</button>
                     </div>
 
                     <div class="summary-item">
                         <div class="summary-row">
                             <span class="summary-label">Route</span>
-                            <div class="summary-route" id="summaryRoute">
-                                <span class="flag">🌍</span> -
+                            <div class="summary-route">
+                                <span class="flag">🇸🇳</span> Dakar
                                 <span style="margin: 0 6px;">→</span>
-                                <span class="flag">🌍</span> -
+                                <span class="flag">🇫🇷</span> Paris
                             </div>
                         </div>
                     </div>
 
                     <div class="summary-item">
                         <div class="summary-row">
-                            <span class="summary-label">Contact destinataire</span>
-                            <span class="summary-value" id="summaryPhone">-</span>
-                        </div>
-                    </div>
-
-                    <div class="summary-item">
-                        <div class="summary-row">
                             <span class="summary-label">GP sélectionné</span>
-                            <span class="summary-value" id="summaryGP">-</span>
+                            <span class="summary-value">Fatou Sall (⭐ 4.9)</span>
                         </div>
                     </div>
 
                     <div class="summary-item">
                         <div class="summary-row">
                             <span class="summary-label">Date de départ</span>
-                            <span class="summary-value" id="summaryDate">-</span>
+                            <span class="summary-value">28 Oct 2025</span>
                         </div>
                     </div>
 
@@ -2306,21 +1515,21 @@
                     <div class="summary-item">
                         <div class="summary-row">
                             <span class="summary-label">Poids estimé</span>
-                            <span class="summary-value" id="summaryWeight">5 kg</span>
+                            <span class="summary-value">5 kg</span>
                         </div>
                     </div>
 
                     <div class="summary-item">
                         <div class="summary-row">
                             <span class="summary-label">Prix par kg</span>
-                            <span class="summary-value" id="summaryPricePerKg">22,000 XOF</span>
+                            <span class="summary-value">22,000 XOF</span>
                         </div>
                     </div>
 
                     <div class="summary-item">
                         <div class="summary-row">
                             <span class="summary-label">Frais de service (10%)</span>
-                            <span class="summary-value" id="summaryServiceFee">11,000 XOF</span>
+                            <span class="summary-value">11,000 XOF</span>
                         </div>
                     </div>
 
@@ -2328,7 +1537,7 @@
 
                     <div class="summary-total">
                         <span class="total-label">Total à payer</span>
-                        <span class="total-value" id="summaryTotal">121,000 XOF</span>
+                        <span class="total-value">121,000 XOF</span>
                     </div>
                 </div>
 
@@ -2501,45 +1710,6 @@
         </div>
     </div>
 
-    <!-- QR Code Success Modal -->
-    <div class="qr-modal" id="qrModal">
-        <div class="qr-content">
-            <div class="qr-success-icon">✓</div>
-            <h2 class="qr-title">Paiement réussi !</h2>
-            <p class="qr-subtitle">Votre envoi a été confirmé avec succès</p>
-
-            <div class="serial-number-box">
-                <div class="serial-label">Numéro de série</div>
-                <div class="serial-number" id="serialNumber">-</div>
-            </div>
-
-            <div class="qr-code-container">
-                <canvas id="qrCodeCanvas" class="qr-code-canvas"></canvas>
-            </div>
-
-            <div class="qr-actions">
-                <button class="qr-btn qr-btn-secondary" onclick="downloadQRCode()">
-                    📥 Télécharger
-                </button>
-                <button class="qr-btn qr-btn-secondary" onclick="shareQRCode()">
-                    📤 Partager
-                </button>
-            </div>
-
-            <button class="qr-btn qr-btn-primary" onclick="goToDashboard()" style="width: 100%;">
-                Retour au tableau de bord
-            </button>
-
-            <p class="qr-info-text" style="margin-top: 16px;">
-                Conservez ce QR code et ce numéro de série.<br>
-                Le destinataire en aura besoin pour récupérer le colis.
-            </p>
-        </div>
-    </div>
-
-    <!-- QR Code Library (using qrcode.js) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
     <script>
         let currentStep = 1;
         const totalSteps = 4;
@@ -2563,7 +1733,7 @@
             document.querySelectorAll('.step').forEach((step, index) => {
                 const stepNumber = index + 1;
                 step.classList.remove('active', 'completed');
-
+                
                 if (stepNumber < currentStep) {
                     step.classList.add('completed');
                     step.querySelector('.step-circle').textContent = '✓';
@@ -2584,102 +1754,6 @@
             // Update buttons
             document.getElementById('prevBtn').style.display = currentStep === 1 ? 'none' : 'block';
             document.getElementById('nextBtn').textContent = currentStep === totalSteps ? 'Confirmer' : 'Suivant';
-
-            // Filter GP by destination when entering step 3
-            if (currentStep === 3 && selectedArrival) {
-                filterGPByDestination();
-            }
-
-            // Update summary when entering step 4
-            if (currentStep === 4) {
-                updateOrderSummary();
-            }
-
-            // Validate current step
-            validateForm();
-        }
-
-        function updateOrderSummary() {
-            // Package type
-            const packageType = document.getElementById('packageType');
-            const packageTypeText = packageType.options[packageType.selectedIndex].text;
-            document.getElementById('summaryPackageType').textContent = packageTypeText;
-
-            // Route
-            if (selectedDeparture && selectedArrival) {
-                document.getElementById('summaryRoute').innerHTML = `
-                    <span class="flag">${selectedDeparture.flag}</span> ${selectedDeparture.city}
-                    <span style="margin: 0 6px;">→</span>
-                    <span class="flag">${selectedArrival.flag}</span> ${selectedArrival.city}
-                `;
-            }
-
-            // Phone
-            const countryCode = document.getElementById('selectedCode').textContent;
-            const phone = document.getElementById('receiverPhone').value;
-            document.getElementById('summaryPhone').textContent = `${countryCode} ${phone}`;
-
-            // GP selected (from step 3)
-            if (selectedGPId) {
-                const selectedCard = document.querySelector(`.gp-card[onclick*="${selectedGPId}"]`);
-                if (selectedCard) {
-                    const gpName = selectedCard.querySelector('.gp-name').textContent;
-                    const gpRating = selectedCard.querySelector('.rating').textContent;
-                    document.getElementById('summaryGP').textContent = `${gpName} (${gpRating})`;
-
-                    const gpDate = selectedCard.querySelector('.gp-date').textContent;
-                    document.getElementById('summaryDate').textContent = gpDate;
-                }
-            }
-        }
-
-        // Filter GP by selected destination
-        function filterGPByDestination() {
-            if (!selectedArrival) return;
-
-            const destinationCity = selectedArrival.city;
-            const destinationCountry = selectedArrival.country;
-
-            // Get all GP cards
-            const gpCards = document.querySelectorAll('.gp-card');
-            let visibleCount = 0;
-
-            gpCards.forEach(card => {
-                // Get GP route from the card
-                const routeCities = card.querySelectorAll('.route-city');
-                if (routeCities.length >= 2) {
-                    const gpDestination = routeCities[1].textContent.trim();
-
-                    // Show only GP going to selected destination
-                    if (gpDestination === destinationCity) {
-                        card.style.display = 'block';
-                        visibleCount++;
-                    } else {
-                        card.style.display = 'none';
-                    }
-                }
-            });
-
-            // Show message if no GP found
-            const gpList = document.getElementById('gpList');
-            let noResultsMsg = document.getElementById('noGPMessage');
-
-            if (visibleCount === 0) {
-                if (!noResultsMsg) {
-                    noResultsMsg = document.createElement('div');
-                    noResultsMsg.id = 'noGPMessage';
-                    noResultsMsg.style.cssText = 'padding: 40px 20px; text-align: center; color: rgba(255,255,255,0.7);';
-                    noResultsMsg.innerHTML = `
-                        <div style="font-size: 48px; margin-bottom: 16px;">📭</div>
-                        <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Aucun GP trouvé</div>
-                        <div style="font-size: 14px;">Aucun Gros Porteur ne va vers ${destinationCity} pour le moment.</div>
-                        <div style="font-size: 14px; margin-top: 8px;">Essayez une autre destination ou revenez plus tard.</div>
-                    `;
-                    gpList.appendChild(noResultsMsg);
-                }
-            } else if (noResultsMsg) {
-                noResultsMsg.remove();
-            }
         }
 
         function nextStep() {
@@ -2712,504 +1786,7 @@
             }
         }
 
-        function editStep(step) {
-            currentStep = step;
-            updateStep();
-        }
-
         let selectedPaymentMethod = null;
-
-        // === Audio Recording System ===
-        let mediaRecorder = null;
-        let audioChunks = [];
-        let recordingStream = null;
-        let recordingTimer = null;
-        let recordingSeconds = 0;
-        let isRecordingPaused = false;
-        let hasAudioRecording = false;
-        let audioBlob = null;
-        let audioElement = null;
-        let isPlaying = false;
-        const MAX_RECORDING_SECONDS = 10;
-
-        // === Media Upload System ===
-        let uploadedMedia = null;
-
-        function openAudioControls() {
-            const controls = document.getElementById('audioControls');
-            controls.classList.add('active');
-        }
-
-        function generateWaveformBars() {
-            const container = document.getElementById('waveformBars');
-            container.innerHTML = '';
-            const barCount = 20;
-            for (let i = 0; i < barCount; i++) {
-                const bar = document.createElement('div');
-                bar.className = 'waveform-bar';
-                const height = Math.random() * 20 + 8;
-                bar.style.height = height + 'px';
-                container.appendChild(bar);
-            }
-        }
-
-        async function startRecording() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                recordingStream = stream;
-
-                mediaRecorder = new MediaRecorder(stream);
-                audioChunks = [];
-                recordingSeconds = 0;
-                isRecordingPaused = false;
-
-                mediaRecorder.ondataavailable = (event) => {
-                    if (event.data.size > 0) {
-                        audioChunks.push(event.data);
-                    }
-                };
-
-                mediaRecorder.onstop = () => {
-                    audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                    hasAudioRecording = true;
-
-                    // Stop all tracks
-                    if (recordingStream) {
-                        recordingStream.getTracks().forEach(track => track.stop());
-                    }
-
-                    // Hide recording interface
-                    document.getElementById('recordingInterface').style.display = 'none';
-                    document.getElementById('startBtn').style.display = 'none';
-
-                    // Show audio bubble
-                    showAudioBubble();
-
-                    // Disable voice button
-                    document.getElementById('voiceBtn').disabled = true;
-                    document.getElementById('voiceBtn').style.opacity = '0.5';
-
-                    validateForm();
-                };
-
-                mediaRecorder.start();
-                startTimer();
-
-                // Show recording interface
-                document.getElementById('startBtn').style.display = 'none';
-                document.getElementById('recordingInterface').style.display = 'flex';
-
-            } catch (error) {
-                console.error('Erreur microphone:', error);
-                alert('Impossible d\'accéder au microphone. Veuillez autoriser l\'accès au microphone.');
-            }
-        }
-
-        function pauseRecording() {
-            if (mediaRecorder && mediaRecorder.state === 'recording') {
-                mediaRecorder.pause();
-                isRecordingPaused = true;
-                clearInterval(recordingTimer);
-                document.getElementById('pauseBtn').innerHTML = '▶️';
-            } else if (mediaRecorder && mediaRecorder.state === 'paused') {
-                mediaRecorder.resume();
-                isRecordingPaused = false;
-                startTimer();
-                document.getElementById('pauseBtn').innerHTML = '⏸️';
-            }
-        }
-
-        function stopRecording() {
-            if (mediaRecorder && (mediaRecorder.state === 'recording' || mediaRecorder.state === 'paused')) {
-                mediaRecorder.stop();
-                clearInterval(recordingTimer);
-            }
-        }
-
-        function showAudioBubble() {
-            // Generate waveform
-            generateWaveformBars();
-
-            // Set duration
-            const duration = formatTime(recordingSeconds);
-            document.getElementById('audioDuration').textContent = duration;
-
-            // Create audio element for playback
-            audioElement = new Audio(URL.createObjectURL(audioBlob));
-
-            // Show bubble
-            document.getElementById('audioMessageBubble').classList.add('active');
-        }
-
-        function toggleAudioPlayback() {
-            if (!audioElement) return;
-
-            if (isPlaying) {
-                audioElement.pause();
-                isPlaying = false;
-                document.getElementById('playIcon').className = 'play-icon';
-            } else {
-                audioElement.play();
-                isPlaying = true;
-                document.getElementById('playIcon').className = 'pause-icon';
-
-                // Update progress
-                audioElement.ontimeupdate = () => {
-                    const progress = (audioElement.currentTime / audioElement.duration) * 100;
-                    document.getElementById('waveformFill').style.width = progress + '%';
-                };
-
-                audioElement.onended = () => {
-                    isPlaying = false;
-                    document.getElementById('playIcon').className = 'play-icon';
-                    document.getElementById('waveformFill').style.width = '0%';
-                };
-            }
-        }
-
-        function deleteAudio() {
-            // Reset audio
-            audioBlob = null;
-            hasAudioRecording = false;
-            if (audioElement) {
-                audioElement.pause();
-                audioElement = null;
-            }
-            isPlaying = false;
-
-            // Hide bubble
-            document.getElementById('audioMessageBubble').classList.remove('active');
-
-            // Show start button
-            document.getElementById('startBtn').style.display = 'flex';
-
-            // Enable voice button
-            document.getElementById('voiceBtn').disabled = false;
-            document.getElementById('voiceBtn').style.opacity = '1';
-
-            validateForm();
-        }
-
-        function formatTime(seconds) {
-            const mins = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            return `${mins}:${String(secs).padStart(2, '0')}`;
-        }
-
-        function startTimer() {
-            recordingTimer = setInterval(() => {
-                if (!isRecordingPaused) {
-                    recordingSeconds++;
-
-                    const display = formatTime(recordingSeconds);
-                    document.getElementById('recordingTimer').textContent = display;
-
-                    // Auto-stop at 10 seconds
-                    if (recordingSeconds >= MAX_RECORDING_SECONDS) {
-                        stopRecording();
-                    }
-                }
-            }, 1000);
-        }
-
-        // === Media Upload System ===
-        function handleMediaUpload(event) {
-            const file = event.target.files[0];
-
-            if (!file) return;
-
-            // Check file size (max 50MB)
-            const maxSize = 50 * 1024 * 1024; // 50MB
-            if (file.size > maxSize) {
-                alert('Le fichier est trop volumineux. Taille maximale : 50MB');
-                event.target.value = '';
-                return;
-            }
-
-            uploadedMedia = file;
-
-            // Show preview
-            const preview = document.getElementById('mediaPreview');
-            const previewContent = document.getElementById('previewContent');
-
-            if (file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    previewContent.innerHTML = `<img src="${e.target.result}" alt="Preview" />`;
-                    preview.classList.add('active');
-                    document.getElementById('mediaUploadSection').classList.add('disabled');
-                    validateForm();
-                };
-                reader.readAsDataURL(file);
-            } else if (file.type.startsWith('video/')) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    previewContent.innerHTML = `<video src="${e.target.result}" controls></video>`;
-                    preview.classList.add('active');
-                    document.getElementById('mediaUploadSection').classList.add('disabled');
-                    validateForm();
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function removeMedia() {
-            uploadedMedia = null;
-
-            const preview = document.getElementById('mediaPreview');
-            const previewContent = document.getElementById('previewContent');
-
-            preview.classList.remove('active');
-            previewContent.innerHTML = '';
-            document.getElementById('mediaInput').value = '';
-            document.getElementById('mediaUploadSection').classList.remove('disabled');
-
-            validateForm();
-        }
-
-        // === Country Codes System ===
-        let selectedCountryCode = { flag: '🇸🇳', code: '+221', country: 'Sénégal' };
-
-        const countryCodes = [
-            // Afrique
-            { flag: '🇸🇳', code: '+221', country: 'Sénégal' },
-            { flag: '🇲🇦', code: '+212', country: 'Maroc' },
-            { flag: '🇩🇿', code: '+213', country: 'Algérie' },
-            { flag: '🇹🇳', code: '+216', country: 'Tunisie' },
-            { flag: '🇨🇮', code: '+225', country: 'Côte d\'Ivoire' },
-            { flag: '🇨🇲', code: '+237', country: 'Cameroun' },
-            { flag: '🇬🇭', code: '+233', country: 'Ghana' },
-            { flag: '🇳🇬', code: '+234', country: 'Nigeria' },
-            { flag: '🇿🇦', code: '+27', country: 'Afrique du Sud' },
-            // Europe
-            { flag: '🇫🇷', code: '+33', country: 'France' },
-            { flag: '🇬🇧', code: '+44', country: 'Royaume-Uni' },
-            { flag: '🇪🇸', code: '+34', country: 'Espagne' },
-            { flag: '🇮🇹', code: '+39', country: 'Italie' },
-            { flag: '🇩🇪', code: '+49', country: 'Allemagne' },
-            { flag: '🇧🇪', code: '+32', country: 'Belgique' },
-            { flag: '🇨🇭', code: '+41', country: 'Suisse' },
-            { flag: '🇵🇹', code: '+351', country: 'Portugal' },
-            // Amérique
-            { flag: '🇺🇸', code: '+1', country: 'États-Unis' },
-            { flag: '🇨🇦', code: '+1', country: 'Canada' },
-            { flag: '🇧🇷', code: '+55', country: 'Brésil' },
-            { flag: '🇲🇽', code: '+52', country: 'Mexique' },
-            // Asie
-            { flag: '🇨🇳', code: '+86', country: 'Chine' },
-            { flag: '🇯🇵', code: '+81', country: 'Japon' },
-            { flag: '🇰🇷', code: '+82', country: 'Corée du Sud' },
-            { flag: '🇮🇳', code: '+91', country: 'Inde' },
-            { flag: '🇹🇭', code: '+66', country: 'Thaïlande' },
-            { flag: '🇦🇪', code: '+971', country: 'Émirats Arabes Unis' },
-            { flag: '🇸🇦', code: '+966', country: 'Arabie Saoudite' }
-        ];
-
-        function openCountryCodeModal() {
-            populateCountryCodes(countryCodes);
-            document.getElementById('countryCodeModal').classList.add('active');
-        }
-
-        function closeCountryCodeModal(event) {
-            if (event && event.target !== event.currentTarget) return;
-            document.getElementById('countryCodeModal').classList.remove('active');
-            document.getElementById('countryCodeSearch').value = '';
-        }
-
-        function populateCountryCodes(codes) {
-            const list = document.getElementById('countryCodesList');
-            list.innerHTML = '';
-
-            codes.forEach(code => {
-                const item = document.createElement('div');
-                item.className = 'location-item';
-                item.onclick = () => selectCountryCode(code);
-
-                item.innerHTML = `
-                    <span class="location-item-flag">${code.flag}</span>
-                    <div class="location-item-info">
-                        <div class="location-item-country">${code.country}</div>
-                        <div class="location-item-city">${code.code}</div>
-                    </div>
-                `;
-
-                list.appendChild(item);
-            });
-        }
-
-        function filterCountryCodes() {
-            const search = document.getElementById('countryCodeSearch').value.toLowerCase();
-            const filtered = countryCodes.filter(code =>
-                code.country.toLowerCase().includes(search) ||
-                code.code.includes(search)
-            );
-            populateCountryCodes(filtered);
-        }
-
-        function selectCountryCode(code) {
-            selectedCountryCode = code;
-            document.getElementById('selectedFlag').textContent = code.flag;
-            document.getElementById('selectedCode').textContent = code.code;
-            closeCountryCodeModal();
-        }
-
-        // === Location System ===
-        let currentModalType = ''; // 'departure' or 'arrival'
-        let selectedDeparture = null;
-        let selectedArrival = null;
-
-        // Liste des pays et villes des 4 continents
-        const locations = [
-            // Afrique
-            { flag: '🇸🇳', country: 'Sénégal', city: 'Dakar', continent: 'Afrique' },
-            { flag: '🇲🇦', country: 'Maroc', city: 'Casablanca', continent: 'Afrique' },
-            { flag: '🇲🇦', country: 'Maroc', city: 'Rabat', continent: 'Afrique' },
-            { flag: '🇩🇿', country: 'Algérie', city: 'Alger', continent: 'Afrique' },
-            { flag: '🇹🇳', country: 'Tunisie', city: 'Tunis', continent: 'Afrique' },
-            { flag: '🇨🇮', country: 'Côte d\'Ivoire', city: 'Abidjan', continent: 'Afrique' },
-            { flag: '🇨🇲', country: 'Cameroun', city: 'Yaoundé', continent: 'Afrique' },
-            { flag: '🇬🇭', country: 'Ghana', city: 'Accra', continent: 'Afrique' },
-            { flag: '🇳🇬', country: 'Nigeria', city: 'Lagos', continent: 'Afrique' },
-            { flag: '🇿🇦', country: 'Afrique du Sud', city: 'Le Cap', continent: 'Afrique' },
-
-            // Europe
-            { flag: '🇫🇷', country: 'France', city: 'Paris', continent: 'Europe' },
-            { flag: '🇫🇷', country: 'France', city: 'Lyon', continent: 'Europe' },
-            { flag: '🇫🇷', country: 'France', city: 'Marseille', continent: 'Europe' },
-            { flag: '🇬🇧', country: 'Royaume-Uni', city: 'Londres', continent: 'Europe' },
-            { flag: '🇪🇸', country: 'Espagne', city: 'Madrid', continent: 'Europe' },
-            { flag: '🇪🇸', country: 'Espagne', city: 'Barcelone', continent: 'Europe' },
-            { flag: '🇮🇹', country: 'Italie', city: 'Rome', continent: 'Europe' },
-            { flag: '🇮🇹', country: 'Italie', city: 'Milan', continent: 'Europe' },
-            { flag: '🇩🇪', country: 'Allemagne', city: 'Berlin', continent: 'Europe' },
-            { flag: '🇧🇪', country: 'Belgique', city: 'Bruxelles', continent: 'Europe' },
-            { flag: '🇨🇭', country: 'Suisse', city: 'Genève', continent: 'Europe' },
-            { flag: '🇵🇹', country: 'Portugal', city: 'Lisbonne', continent: 'Europe' },
-
-            // Amérique
-            { flag: '🇺🇸', country: 'États-Unis', city: 'New York', continent: 'Amérique' },
-            { flag: '🇺🇸', country: 'États-Unis', city: 'Los Angeles', continent: 'Amérique' },
-            { flag: '🇺🇸', country: 'États-Unis', city: 'Miami', continent: 'Amérique' },
-            { flag: '🇨🇦', country: 'Canada', city: 'Montréal', continent: 'Amérique' },
-            { flag: '🇨🇦', country: 'Canada', city: 'Toronto', continent: 'Amérique' },
-            { flag: '🇧🇷', country: 'Brésil', city: 'São Paulo', continent: 'Amérique' },
-            { flag: '🇲🇽', country: 'Mexique', city: 'Mexico', continent: 'Amérique' },
-
-            // Asie
-            { flag: '🇨🇳', country: 'Chine', city: 'Pékin', continent: 'Asie' },
-            { flag: '🇨🇳', country: 'Chine', city: 'Shanghai', continent: 'Asie' },
-            { flag: '🇯🇵', country: 'Japon', city: 'Tokyo', continent: 'Asie' },
-            { flag: '🇰🇷', country: 'Corée du Sud', city: 'Séoul', continent: 'Asie' },
-            { flag: '🇮🇳', country: 'Inde', city: 'New Delhi', continent: 'Asie' },
-            { flag: '🇹🇭', country: 'Thaïlande', city: 'Bangkok', continent: 'Asie' },
-            { flag: '🇦🇪', country: 'Émirats Arabes Unis', city: 'Dubaï', continent: 'Asie' },
-            { flag: '🇸🇦', country: 'Arabie Saoudite', city: 'Riyad', continent: 'Asie' }
-        ];
-
-        function openLocationModal(type) {
-            currentModalType = type;
-            const modal = document.getElementById('locationModal');
-            const title = document.getElementById('modalTitle');
-
-            title.textContent = type === 'departure' ? 'Sélectionner le lieu de départ' : 'Sélectionner le lieu d\'arrivée';
-
-            populateLocations(locations);
-            modal.classList.add('active');
-        }
-
-        function closeLocationModal(event) {
-            if (event && event.target !== event.currentTarget) return;
-            document.getElementById('locationModal').classList.remove('active');
-            document.getElementById('locationSearch').value = '';
-        }
-
-        function populateLocations(locs) {
-            const list = document.getElementById('locationsList');
-            list.innerHTML = '';
-
-            locs.forEach(loc => {
-                const item = document.createElement('div');
-                item.className = 'location-item';
-                item.onclick = () => selectLocation(loc);
-
-                item.innerHTML = `
-                    <span class="location-item-flag">${loc.flag}</span>
-                    <div class="location-item-info">
-                        <div class="location-item-country">${loc.country}</div>
-                        <div class="location-item-city">${loc.city}</div>
-                    </div>
-                `;
-
-                list.appendChild(item);
-            });
-        }
-
-        function filterLocations() {
-            const search = document.getElementById('locationSearch').value.toLowerCase();
-            const filtered = locations.filter(loc =>
-                loc.country.toLowerCase().includes(search) ||
-                loc.city.toLowerCase().includes(search)
-            );
-            populateLocations(filtered);
-        }
-
-        function selectLocation(location) {
-            if (currentModalType === 'departure') {
-                selectedDeparture = location;
-                document.getElementById('departureFlag').textContent = location.flag;
-                document.getElementById('departureName').textContent = `${location.city}, ${location.country}`;
-            } else {
-                selectedArrival = location;
-                document.getElementById('arrivalFlag').textContent = location.flag;
-                document.getElementById('arrivalName').textContent = `${location.city}, ${location.country}`;
-            }
-
-            closeLocationModal();
-            validateStep2();
-        }
-
-        // === Form Validation ===
-        function validateForm() {
-            if (currentStep === 1) {
-                return validateStep1();
-            } else if (currentStep === 2) {
-                return validateStep2();
-            }
-            return true;
-        }
-
-        function validateStep1() {
-            const packageType = document.getElementById('packageType').value;
-            const description = document.getElementById('description').value.trim();
-
-            const hasPackageType = packageType !== '';
-            const hasDescription = description.length > 0;
-            const hasMedia = uploadedMedia !== null;
-
-            const isValid = hasPackageType && (hasDescription || hasAudioRecording || hasMedia);
-
-            updateNextButton(isValid);
-            return isValid;
-        }
-
-        function validateStep2() {
-            const hasDeparture = selectedDeparture !== null;
-            const hasArrival = selectedArrival !== null;
-            const receiverPhone = document.getElementById('receiverPhone').value.trim();
-            const hasPhone = receiverPhone.length >= 8;
-
-            const isValid = hasDeparture && hasArrival && hasPhone;
-
-            updateNextButton(isValid);
-            return isValid;
-        }
-
-        function updateNextButton(isValid) {
-            const nextBtn = document.getElementById('nextBtn');
-            nextBtn.disabled = !isValid;
-            nextBtn.style.opacity = isValid ? '1' : '0.5';
-            nextBtn.style.cursor = isValid ? 'pointer' : 'not-allowed';
-        }
 
         function selectPaymentMethod(method) {
             // Remove previous selection
@@ -3288,144 +1865,12 @@
 
             const methodName = paymentMethods[selectedPaymentMethod];
 
-            // Désactiver le bouton de paiement
-            const nextBtn = document.getElementById('nextBtn');
-            nextBtn.disabled = true;
-            nextBtn.textContent = 'Traitement en cours...';
+            alert(`🎉 Paiement en cours...\n\nMéthode: ${methodName}\nMontant: 121,000 XOF\n\nVous allez être redirigé vers la page de confirmation.`);
 
-            // Simuler le traitement du paiement
+            // Simulate payment processing and redirect to confirmation page
             setTimeout(() => {
-                // Générer un numéro de série unique
-                const serialNumber = generateSerialNumber();
-
-                // Générer le QR code
-                generateQRCode(serialNumber);
-
-                // Afficher le modal de succès
-                document.getElementById('qrModal').classList.add('active');
-
-                // Réactiver le bouton
-                nextBtn.disabled = false;
-                nextBtn.textContent = 'Confirmer';
+                window.location.href = 'paiement.html';
             }, 2000);
-        }
-
-        function generateSerialNumber() {
-            // Format: SNGP-YYYYMMDD-XXXX
-            const date = new Date();
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            const random = Math.floor(1000 + Math.random() * 9000); // 4 chiffres aléatoires
-
-            const serial = `SNGP-${year}${month}${day}-${random}`;
-            document.getElementById('serialNumber').textContent = serial;
-
-            return serial;
-        }
-
-        function generateQRCode(serialNumber) {
-            // Créer les données pour le QR code
-            const qrData = {
-                serial: serialNumber,
-                type: document.getElementById('packageType').value,
-                from: selectedDeparture ? `${selectedDeparture.city}, ${selectedDeparture.country}` : '',
-                to: selectedArrival ? `${selectedArrival.city}, ${selectedArrival.country}` : '',
-                date: new Date().toISOString(),
-                platform: 'SEN GP'
-            };
-
-            // Nettoyer le canvas précédent
-            const canvas = document.getElementById('qrCodeCanvas');
-            const container = canvas.parentElement;
-            container.innerHTML = '';
-
-            // Créer un nouveau canvas
-            const newCanvas = document.createElement('canvas');
-            newCanvas.id = 'qrCodeCanvas';
-            newCanvas.className = 'qr-code-canvas';
-            container.appendChild(newCanvas);
-
-            // Générer le QR code avec QRCode.js
-            const qrcode = new QRCode(newCanvas, {
-                text: JSON.stringify(qrData),
-                width: 200,
-                height: 200,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            });
-        }
-
-        function downloadQRCode() {
-            const canvas = document.getElementById('qrCodeCanvas');
-            const serialNumber = document.getElementById('serialNumber').textContent;
-
-            // Créer un canvas temporaire avec le numéro de série
-            const tempCanvas = document.createElement('canvas');
-            const ctx = tempCanvas.getContext('2d');
-
-            // Taille du canvas final
-            tempCanvas.width = 300;
-            tempCanvas.height = 350;
-
-            // Fond blanc
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-
-            // Ajouter le titre
-            ctx.fillStyle = '#1a1a2e';
-            ctx.font = 'bold 20px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('SEN GP', tempCanvas.width / 2, 30);
-
-            // Dessiner le QR code
-            const qrCanvas = canvas.querySelector('canvas') || canvas;
-            ctx.drawImage(qrCanvas, 50, 50, 200, 200);
-
-            // Ajouter le numéro de série
-            ctx.font = 'bold 14px Courier New';
-            ctx.fillText(serialNumber, tempCanvas.width / 2, 280);
-
-            ctx.font = '12px Arial';
-            ctx.fillText('Conservez ce code', tempCanvas.width / 2, 310);
-            ctx.fillText('pour la livraison', tempCanvas.width / 2, 330);
-
-            // Télécharger l'image
-            const link = document.createElement('a');
-            link.download = `SENGP-${serialNumber}.png`;
-            link.href = tempCanvas.toDataURL('image/png');
-            link.click();
-        }
-
-        function shareQRCode() {
-            const canvas = document.getElementById('qrCodeCanvas');
-            const serialNumber = document.getElementById('serialNumber').textContent;
-
-            // Vérifier si l'API Web Share est disponible
-            if (navigator.share) {
-                canvas.toBlob((blob) => {
-                    const file = new File([blob], `SENGP-${serialNumber}.png`, { type: 'image/png' });
-                    navigator.share({
-                        title: 'SEN GP - Code de livraison',
-                        text: `Numéro de série: ${serialNumber}`,
-                        files: [file]
-                    }).catch(() => {
-                        alert('Partage annulé');
-                    });
-                });
-            } else {
-                // Fallback: copier le numéro de série
-                navigator.clipboard.writeText(serialNumber).then(() => {
-                    alert('Numéro de série copié dans le presse-papiers!');
-                }).catch(() => {
-                    alert('Impossible de partager. Numéro de série: ' + serialNumber);
-                });
-            }
-        }
-
-        function goToDashboard() {
-            window.location.href = 'dashexpediteur.html';
         }
 
         let selectedGPId = null;
@@ -3491,11 +1936,126 @@
             });
         }
 
-        // Old functions removed - using new implementation above
+        let isRecording = false;
+        let recordingInterval;
+        let recordingSeconds = 0;
+        let mediaRecorder;
+        let audioChunks = [];
+
+        function toggleVoiceRecording() {
+            if (!isRecording) {
+                startRecording();
+            } else {
+                stopRecording();
+            }
+        }
+
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = (event) => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = async () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    
+                    // Simulate speech-to-text conversion
+                    const transcribedText = "Texte transcrit de l'audio (simulation)";
+                    const descriptionField = document.getElementById('description');
+                    
+                    if (descriptionField.value) {
+                        descriptionField.value += ' ' + transcribedText;
+                    } else {
+                        descriptionField.value = transcribedText;
+                    }
+                    
+                    // Trigger character counter update
+                    descriptionField.dispatchEvent(new Event('input'));
+                    
+                    // Stop all tracks
+                    stream.getTracks().forEach(track => track.stop());
+                };
+
+                mediaRecorder.start();
+                isRecording = true;
+                recordingSeconds = 0;
+
+                // Update UI
+                document.getElementById('voiceBtn').classList.add('recording');
+                document.getElementById('voiceRecording').style.display = 'flex';
+
+                // Start timer
+                recordingInterval = setInterval(() => {
+                    recordingSeconds++;
+                    const minutes = Math.floor(recordingSeconds / 60).toString().padStart(2, '0');
+                    const seconds = (recordingSeconds % 60).toString().padStart(2, '0');
+                    document.getElementById('recordingTimer').textContent = `${minutes}:${seconds}`;
+                }, 1000);
+
+            } catch (error) {
+                alert('Erreur: Impossible d\'accéder au microphone.\n\nVeuillez autoriser l\'accès au microphone dans les paramètres de votre navigateur.');
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+            }
+
+            isRecording = false;
+            clearInterval(recordingInterval);
+
+            // Update UI
+            document.getElementById('voiceBtn').classList.remove('recording');
+            document.getElementById('voiceRecording').style.display = 'none';
+            document.getElementById('recordingTimer').textContent = '00:00';
+        }
+
+        function handleMediaUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const preview = document.getElementById('mediaPreview');
+            const previewContent = document.getElementById('previewContent');
+            
+            // Clear previous content
+            previewContent.innerHTML = '';
+
+            // Create preview based on file type
+            if (file.type.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.alt = 'Preview';
+                previewContent.appendChild(img);
+            } else if (file.type.startsWith('video/')) {
+                const video = document.createElement('video');
+                video.src = URL.createObjectURL(file);
+                video.controls = true;
+                previewContent.appendChild(video);
+            }
+
+            // Show preview
+            preview.style.display = 'block';
+            
+            alert(`Media uploadé: ${file.name}\nType: ${file.type.startsWith('image/') ? 'Image' : 'Vidéo'}\nTaille: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
+        }
+
+        function removeMedia() {
+            document.getElementById('mediaUpload').value = '';
+            document.getElementById('mediaPreview').style.display = 'none';
+            document.getElementById('previewContent').innerHTML = '';
+        }
+
+        function handlePhotoUpload(event, photoNumber) {
+            // Function no longer used but kept for compatibility
+        }
 
         // Initialize
         updateStep();
-        validateForm(); // Initialize form validation
 
         // Character counter for description
         const descriptionField = document.getElementById('description');

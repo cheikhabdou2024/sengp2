@@ -1,0 +1,36 @@
+services:
+  # PostgreSQL Database
+  - type: pgsql
+    name: sengp-db
+    databaseName: sengp_production
+    plan: free
+    ipAllowList: []
+
+  # Backend + Frontend Web Service
+  - type: web
+    name: sengp-api
+    env: node
+    plan: free
+    buildCommand: npm run build:all
+    startCommand: cd backend && npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: API_VERSION
+        value: v1
+      - key: DATABASE_URL
+        fromDatabase:
+          name: sengp-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        value: https://sengp-api.onrender.com
+      - key: BCRYPT_ROUNDS
+        value: 10
+    autoDeploy: true

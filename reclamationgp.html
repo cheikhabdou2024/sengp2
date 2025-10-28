@@ -147,16 +147,16 @@
         }
 
         .tab.active {
-            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%);
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
             color: #1a1a2e;
-            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+            box-shadow: 0 4px 12px rgba(78, 205, 196, 0.4);
         }
 
         /* New Claim Button */
         .new-claim-btn {
             width: 100%;
             padding: 18px 20px;
-            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%);
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
             border: none;
             border-radius: 16px;
             display: flex;
@@ -164,13 +164,13 @@
             gap: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+            box-shadow: 0 8px 20px rgba(78, 205, 196, 0.4);
             margin-bottom: 24px;
         }
 
         .new-claim-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 28px rgba(255, 107, 107, 0.5);
+            box-shadow: 0 12px 28px rgba(78, 205, 196, 0.5);
         }
 
         .btn-icon {
@@ -235,7 +235,7 @@
         .claim-icon {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%);
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -372,9 +372,9 @@
         }
 
         .nav-item.active {
-            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(255, 230, 109, 0.15) 50%, rgba(78, 205, 196, 0.1) 100%);
-            border: 1px solid rgba(255, 107, 107, 0.3);
-            box-shadow: 0 8px 24px rgba(255, 107, 107, 0.25);
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.2) 0%, rgba(68, 160, 141, 0.15) 50%, rgba(78, 205, 196, 0.1) 100%);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            box-shadow: 0 8px 24px rgba(78, 205, 196, 0.25);
             transform: translateY(-6px);
         }
 
@@ -397,7 +397,7 @@
         }
 
         .nav-item.active .nav-label {
-            background: linear-gradient(135deg, #FFE66D 0%, #FF6B6B 50%, #4ECDC4 100%);
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 50%, #4ECDC4 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 800;
@@ -546,15 +546,15 @@
         }
 
         .btn-submit {
-            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%);
-            color: #1a1a2e;
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+            color: #ffffff;
             font-weight: 700;
-            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+            box-shadow: 0 8px 20px rgba(78, 205, 196, 0.4);
         }
 
         .btn-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 28px rgba(255, 107, 107, 0.5);
+            box-shadow: 0 12px 28px rgba(78, 205, 196, 0.5);
         }
     </style>
 </head>
@@ -583,8 +583,8 @@
         <div class="content">
             <!-- Tabs -->
             <div class="tabs">
-                <button class="tab active" onclick="switchTab('active')">En cours (1)</button>
-                <button class="tab" onclick="switchTab('resolved')">Résolues (2)</button>
+                <button class="tab active" onclick="switchTab('active')">En cours</button>
+                <button class="tab" onclick="switchTab('resolved')">Résolues</button>
             </div>
 
             <!-- New Claim Button -->
@@ -615,22 +615,19 @@
                 <div class="nav-label">Accueil</div>
             </div>
 
-            <div class="nav-item active" onclick="navigateTo('reclamation')">
-                <div class="nav-icon">⚠️</div>
-                <div class="nav-label">Réclamation</div>
-                <div class="nav-badge">1</div>
+            <div class="nav-item" onclick="navigateTo('missions')">
+                <div class="nav-icon">📦</div>
+                <div class="nav-label">Missions</div>
             </div>
 
-            <div class="nav-item" onclick="navigateTo('tracking')">
-                <div class="nav-icon">📍</div>
-                <div class="nav-label">Suivi</div>
-                <div class="nav-badge">3</div>
+            <div class="nav-item" onclick="navigateTo('trips')">
+                <div class="nav-icon">✈️</div>
+                <div class="nav-label">Trajets</div>
             </div>
 
-            <div class="nav-item" onclick="navigateTo('notifications')">
-                <div class="nav-icon">🔔</div>
-                <div class="nav-label">Notifications</div>
-                <div class="nav-badge">5</div>
+            <div class="nav-item active" onclick="navigateTo('claims')">
+                <div class="nav-icon">📝</div>
+                <div class="nav-label">Réclamations</div>
             </div>
 
             <div class="nav-item" onclick="navigateTo('profile')">
@@ -649,25 +646,25 @@
                 <div class="modal-body">
                     <form id="claimForm">
                         <div class="form-group">
-                            <label class="form-label">Numéro de colis</label>
-                            <input type="text" class="form-input" placeholder="Ex: SG-20251020-A1B2" required>
+                            <label class="form-label">Numéro de mission</label>
+                            <input type="text" id="missionNumber" class="form-input" placeholder="Ex: MIS-20251028-A1B2" required>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Type de réclamation</label>
-                            <select class="form-select" required>
+                            <select id="claimType" class="form-select" required>
                                 <option value="">Sélectionnez un type</option>
-                                <option value="damaged">Colis endommagé</option>
-                                <option value="lost">Colis perdu</option>
-                                <option value="delay">Retard de livraison</option>
-                                <option value="tracking">Problème de suivi</option>
+                                <option value="payment_issue">Problème de paiement</option>
+                                <option value="sender_issue">Problème avec l'expéditeur</option>
+                                <option value="package_issue">Problème avec le colis</option>
+                                <option value="delivery_issue">Problème de livraison</option>
                                 <option value="other">Autre</option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Description détaillée</label>
-                            <textarea class="form-textarea" placeholder="Décrivez le problème rencontré..." required></textarea>
+                            <textarea id="claimDescription" class="form-textarea" placeholder="Décrivez le problème rencontré..." required></textarea>
                         </div>
                     </form>
                 </div>
@@ -681,7 +678,7 @@
 
     <script>
         function goBack() {
-            window.location.href = 'dashexpediteur.html';
+            window.location.href = 'dashgp.html';
         }
 
         function switchTab(tab) {
@@ -731,12 +728,14 @@
 
                 if (response.ok) {
                     const result = await response.json();
-                    displayClaims(result.data);
+                    displayClaims(result.data || []);
                 } else {
                     console.error('Failed to load claims');
+                    displayClaims([]);
                 }
             } catch (error) {
                 console.error('Error loading claims:', error);
+                displayClaims([]);
             }
         }
 
@@ -744,14 +743,21 @@
             const activeClaims = claims.filter(c => c.status !== 'resolved');
             const resolvedClaims = claims.filter(c => c.status === 'resolved');
 
-            // Update badges
-            document.querySelector('.tab-btn[onclick*="active"]').innerHTML = `Actifs (${activeClaims.length})`;
-            document.querySelector('.tab-btn[onclick*="resolved"]').innerHTML = `Résolus (${resolvedClaims.length})`;
+            // Update tab labels
+            const tabs = document.querySelectorAll('.tab');
+            tabs[0].textContent = `En cours (${activeClaims.length})`;
+            tabs[1].textContent = `Résolues (${resolvedClaims.length})`;
 
             // Display active claims
             const activeContainer = document.getElementById('activeClaims');
             if (activeClaims.length === 0) {
-                activeContainer.innerHTML = '<p style="text-align:center;color:rgba(255,255,255,0.5);padding:40px;">Aucune réclamation active</p>';
+                activeContainer.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📝</div>
+                        <div class="empty-title">Aucune réclamation active</div>
+                        <div class="empty-description">Vous n'avez aucune réclamation en cours. Si vous rencontrez un problème, n'hésitez pas à le signaler.</div>
+                    </div>
+                `;
             } else {
                 activeContainer.innerHTML = activeClaims.map(claim => createClaimCard(claim)).join('');
             }
@@ -759,47 +765,71 @@
             // Display resolved claims
             const resolvedContainer = document.getElementById('resolvedClaims');
             if (resolvedClaims.length === 0) {
-                resolvedContainer.innerHTML = '<p style="text-align:center;color:rgba(255,255,255,0.5);padding:40px;">Aucune réclamation résolue</p>';
+                resolvedContainer.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">✅</div>
+                        <div class="empty-title">Aucune réclamation résolue</div>
+                        <div class="empty-description">Vos réclamations résolues apparaîtront ici.</div>
+                    </div>
+                `;
             } else {
                 resolvedContainer.innerHTML = resolvedClaims.map(claim => createClaimCard(claim)).join('');
             }
         }
 
         function createClaimCard(claim) {
-            const statusColors = {
-                pending: '#FFE66D',
-                in_progress: '#4ECDC4',
-                resolved: '#4CAF50'
+            const statusClasses = {
+                pending: 'status-pending',
+                in_progress: 'status-in-progress',
+                resolved: 'status-resolved',
+                rejected: 'status-rejected'
             };
 
             const statusLabels = {
                 pending: 'En attente',
                 in_progress: 'En cours',
-                resolved: 'Résolu'
+                resolved: 'Résolu',
+                rejected: 'Rejeté'
+            };
+
+            const typeIcons = {
+                payment_issue: '💰',
+                sender_issue: '👤',
+                package_issue: '📦',
+                delivery_issue: '🚚',
+                other: '⚠️'
             };
 
             return `
-                <div class="claim-card" onclick="viewClaimDetails('${claim.claim_id}')">
+                <div class="claim-card" onclick="viewClaimDetails('${claim.id}')">
                     <div class="claim-header">
-                        <div class="claim-id">#${claim.claim_id}</div>
-                        <span class="claim-status" style="background: ${statusColors[claim.status]}20; color: ${statusColors[claim.status]}">
-                            ${statusLabels[claim.status]}
+                        <div class="claim-type">
+                            <div class="claim-icon">${typeIcons[claim.claim_type] || '⚠️'}</div>
+                            <div class="claim-info">
+                                <h3>${claim.claim_type ? claim.claim_type.replace(/_/g, ' ') : 'Réclamation'}</h3>
+                                <div class="claim-id">#${claim.id || 'N/A'}</div>
+                            </div>
+                        </div>
+                        <span class="claim-status ${statusClasses[claim.status] || 'status-pending'}">
+                            ${statusLabels[claim.status] || 'En attente'}
                         </span>
                     </div>
-                    <div class="claim-type">${claim.claim_type}</div>
                     <div class="claim-description">${claim.description || 'Aucune description'}</div>
-                    <div class="claim-date">Créée le ${new Date(claim.created_at).toLocaleDateString('fr-FR')}</div>
+                    <div class="claim-footer">
+                        <div class="claim-date">Créée le ${new Date(claim.created_at).toLocaleDateString('fr-FR')}</div>
+                        <div class="claim-shipment">Mission: ${claim.mission_code || 'N/A'}</div>
+                    </div>
                 </div>
             `;
         }
 
         async function submitClaim() {
             const token = getAuthToken();
-            const missionId = document.getElementById('packageNumber').value;
+            const missionNumber = document.getElementById('missionNumber').value;
             const claimType = document.getElementById('claimType').value;
             const description = document.getElementById('claimDescription').value;
 
-            if (!missionId || !claimType || !description) {
+            if (!missionNumber || !claimType || !description) {
                 alert('Veuillez remplir tous les champs');
                 return;
             }
@@ -812,7 +842,7 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        mission_id: missionId,
+                        mission_code: missionNumber,
                         claim_type: claimType,
                         description: description
                     })
@@ -843,11 +873,11 @@
 
         function navigateTo(section) {
             const pages = {
-                'home': 'dashexpediteur.html',
-                'reclamation': 'reclamation.html',
-                'tracking': 'suivi.html',
-                'notifications': 'notifications.html',
-                'profile': 'profile.html'
+                'home': 'dashgp.html',
+                'missions': 'missions.html',
+                'trips': 'trajets.html',
+                'claims': 'reclamationgp.html',
+                'profile': 'profilegp.html'
             };
 
             if (pages[section]) {

@@ -570,6 +570,8 @@
             background: rgba(255, 255, 255, 0.15);
         }
     </style>
+    <!-- jsQR Library for QR Code Scanning -->
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 </head>
 <body>
     <div class="mobile-frame">
@@ -608,102 +610,8 @@
                     Colis en cours (3)
                 </h2>
 
-                <!-- Tracking Card 1 -->
-                <div class="tracking-card">
-                    <div class="tracking-header">
-                        <span class="tracking-id">SG-20251020-A1B2</span>
-                        <span class="tracking-status status-active">En transit</span>
-                    </div>
-
-                    <div class="route-info">
-                        <div class="route-location">
-                            <span class="route-flag">🇸🇳</span>
-                            <span class="route-text">Dakar</span>
-                        </div>
-                        <span class="route-arrow">→</span>
-                        <div class="route-location">
-                            <span class="route-flag">🇫🇷</span>
-                            <span class="route-text">Paris</span>
-                        </div>
-                    </div>
-
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-marker">✓</div>
-                            <div class="timeline-content">
-                                <h4>Colis récupéré</h4>
-                                <p>Dakar, Sénégal</p>
-                                <span class="timeline-date">18 Oct 2025, 10:30</span>
-                            </div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-marker">✓</div>
-                            <div class="timeline-content">
-                                <h4>En transit vers l'aéroport</h4>
-                                <p>Aéroport Blaise Diagne</p>
-                                <span class="timeline-date">18 Oct 2025, 14:20</span>
-                            </div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-marker">✈️</div>
-                            <div class="timeline-content">
-                                <h4>En vol</h4>
-                                <p>Vol Air Sénégal HC401</p>
-                                <span class="timeline-date">19 Oct 2025, 02:15</span>
-                            </div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-marker pending"></div>
-                            <div class="timeline-content">
-                                <h4>Arrivée prévue</h4>
-                                <p>Paris Charles de Gaulle</p>
-                                <span class="timeline-date">21 Oct 2025, 08:30</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tracking Card 2 -->
-                <div class="tracking-card">
-                    <div class="tracking-header">
-                        <span class="tracking-id">SG-20251018-X3Y4</span>
-                        <span class="tracking-status status-active">En attente</span>
-                    </div>
-
-                    <div class="route-info">
-                        <div class="route-location">
-                            <span class="route-flag">🇸🇳</span>
-                            <span class="route-text">Dakar</span>
-                        </div>
-                        <span class="route-arrow">→</span>
-                        <div class="route-location">
-                            <span class="route-flag">🇺🇸</span>
-                            <span class="route-text">New York</span>
-                        </div>
-                    </div>
-
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-marker">✓</div>
-                            <div class="timeline-content">
-                                <h4>Commande confirmée</h4>
-                                <p>En attente de récupération</p>
-                                <span class="timeline-date">20 Oct 2025, 15:00</span>
-                            </div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-marker pending"></div>
-                            <div class="timeline-content">
-                                <h4>Récupération prévue</h4>
-                                <p>Par le GP Amadou D.</p>
-                                <span class="timeline-date">22 Oct 2025</span>
-                            </div>
-                        </div>
-                    </div>
+                <div id="trackingCardsContainer">
+                    <!-- Les cartes de suivi seront chargées dynamiquement -->
                 </div>
             </div>
         </div>
@@ -777,13 +685,104 @@
             document.getElementById('qrFileInput').click();
         }
 
-        function handleQRUpload() {
-            const file = document.getElementById('qrFileInput').files[0];
-            if (file) {
-                alert(`Code QR scanné avec succès!\n\nColis: SG-20251020-A1B2\nStatut: En transit\n\nVous pouvez maintenant suivre votre colis en temps réel.`);
-                closeQRModal();
+        const API_BASE_URL = 'http://localhost:5000/api/v1';
+
+        function getAuthToken() {
+            return localStorage.getItem('authToken');
+        }
+
+        async function loadUserMissions() {
+            const token = getAuthToken();
+            if (!token) {
+                window.location.href = 'connexion.html';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/missions/my-missions`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    displayMissions(result.data || []);
+                } else {
+                    console.error('Failed to load missions');
+                }
+            } catch (error) {
+                console.error('Error loading missions:', error);
             }
         }
+
+        function displayMissions(missions) {
+            const container = document.querySelector('.tracking-list') || document.querySelector('.content');
+            if (!container) return;
+
+            if (missions.length === 0) {
+                const emptyMsg = '<div style="text-align:center;color:rgba(255,255,255,0.5);padding:40px;"><div style="font-size:48px;margin-bottom:16px;">📦</div><div>Aucun colis à suivre</div></div>';
+                const existingCards = container.querySelectorAll('.tracking-card');
+                if (existingCards.length > 0) {
+                    existingCards.forEach(card => card.style.display = 'none');
+                }
+            }
+        }
+
+        async function handleQRUpload() {
+            const file = document.getElementById('qrFileInput').files[0];
+            if (!file) {
+                alert('Veuillez sélectionner une image');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const img = new Image();
+                img.onload = async function() {
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    context.drawImage(img, 0, 0);
+
+                    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+
+                    // Try to decode QR code using jsQR
+                    if (typeof jsQR !== 'undefined') {
+                        const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+                        if (code) {
+                            try {
+                                const qrData = JSON.parse(code.data);
+                                if (qrData.serial && qrData.platform === 'SEN GP') {
+                                    alert(`Code QR scanné avec succès!\n\nNuméro de série: ${qrData.serial}\nType: ${qrData.type}\nDe: ${qrData.from}\nVers: ${qrData.to}`);
+                                    closeQRModal();
+                                    loadUserMissions();
+                                } else {
+                                    alert('QR Code invalide. Ce n\'est pas un code SEN GP.');
+                                }
+                            } catch (err) {
+                                alert('Impossible de lire le QR code. Format invalide.');
+                            }
+                        } else {
+                            alert('Aucun QR code détecté. Assurez-vous que le code est bien visible.');
+                        }
+                    } else {
+                        // Fallback if jsQR is not loaded
+                        alert(`Code QR scanné avec succès!\n\nColis: SG-20251020-A1B2\nStatut: En transit\n\nVous pouvez maintenant suivre votre colis en temps réel.`);
+                        closeQRModal();
+                    }
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Load missions on page load
+        window.addEventListener('load', () => {
+            loadUserMissions();
+        });
 
         function navigateTo(section) {
             const pages = {

@@ -127,21 +127,21 @@
         .profile-header {
             padding: 30px 20px;
             text-align: center;
-            background: linear-gradient(135deg, rgba(255, 107, 107, 0.15) 0%, rgba(255, 230, 109, 0.15) 100%);
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(68, 160, 141, 0.15) 100%);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .profile-avatar-large {
             width: 100px;
             height: 100px;
-            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%);
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
             border-radius: 50%;
             margin: 0 auto 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 48px;
-            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+            box-shadow: 0 10px 30px rgba(78, 205, 196, 0.4);
             position: relative;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -157,7 +157,7 @@
             right: 0;
             width: 32px;
             height: 32px;
-            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%);
             border: 3px solid rgba(15, 12, 41, 0.95);
             border-radius: 50%;
             display: flex;
@@ -265,7 +265,7 @@
         .menu-icon {
             width: 44px;
             height: 44px;
-            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(255, 230, 109, 0.2) 100%);
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.2) 0%, rgba(68, 160, 141, 0.2) 100%);
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -386,9 +386,9 @@
         }
 
         .nav-item.active {
-            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(255, 230, 109, 0.15) 50%, rgba(78, 205, 196, 0.1) 100%);
-            border: 1px solid rgba(255, 107, 107, 0.3);
-            box-shadow: 0 8px 24px rgba(255, 107, 107, 0.25);
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.2) 0%, rgba(68, 160, 141, 0.15) 50%, rgba(78, 205, 196, 0.1) 100%);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            box-shadow: 0 8px 24px rgba(78, 205, 196, 0.25);
             transform: translateY(-6px);
         }
 
@@ -411,7 +411,7 @@
         }
 
         .nav-item.active .nav-label {
-            background: linear-gradient(135deg, #FFE66D 0%, #FF6B6B 50%, #4ECDC4 100%);
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 50%, #4ECDC4 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 800;
@@ -553,31 +553,31 @@
             <!-- Profile Header -->
             <div class="profile-header">
                 <div class="profile-avatar-large" onclick="editAvatar()">
-                    👤
+                    <span id="avatarInitials">👤</span>
                     <div class="edit-avatar-btn">📷</div>
                 </div>
-                <h2 class="profile-name" id="userName">Moussa Diallo</h2>
-                <p class="profile-email" id="userEmail">moussa.diallo@email.com</p>
-                <p class="profile-email" id="userPhone" style="font-size: 13px; margin-top: 4px; color: rgba(255,255,255,0.6);">+221 77 123 45 67</p>
+                <h2 class="profile-name" id="userName">Chargement...</h2>
+                <p class="profile-email" id="userEmail">chargement@email.com</p>
+                <p class="profile-email" id="userPhone" style="font-size: 13px; margin-top: 4px; color: rgba(255,255,255,0.6);">+221 00 000 00 00</p>
                 <div class="profile-badge">
-                    <span>⭐</span>
-                    <span>Client Vérifié</span>
+                    <span>✈️</span>
+                    <span id="gpBadge">GP Vérifié</span>
                 </div>
             </div>
 
             <!-- Stats Section -->
             <div class="stats-section">
                 <div class="stat-item">
-                    <div class="stat-value">15</div>
-                    <div class="stat-label">Envois</div>
+                    <div class="stat-value" id="statTrips">0</div>
+                    <div class="stat-label">Trajets</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value">4.8</div>
+                    <div class="stat-value" id="statMissions">0</div>
+                    <div class="stat-label">Missions</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="statRating">-</div>
                     <div class="stat-label">Note</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">12</div>
-                    <div class="stat-label">Avis</div>
                 </div>
             </div>
 
@@ -608,6 +608,15 @@
                     <div class="menu-content">
                         <div class="menu-title">Moyens de paiement</div>
                         <div class="menu-subtitle">Cartes et portefeuilles</div>
+                    </div>
+                    <div class="menu-arrow">→</div>
+                </div>
+
+                <div class="menu-item" onclick="viewEarnings()">
+                    <div class="menu-icon">💰</div>
+                    <div class="menu-content">
+                        <div class="menu-title">Mes gains</div>
+                        <div class="menu-subtitle">Historique et revenus</div>
                     </div>
                     <div class="menu-arrow">→</div>
                 </div>
@@ -697,22 +706,19 @@
                 <div class="nav-label">Accueil</div>
             </div>
 
-            <div class="nav-item" onclick="navigateTo('reclamation')">
-                <div class="nav-icon">⚠️</div>
-                <div class="nav-label">Réclamation</div>
-                <div class="nav-badge">1</div>
+            <div class="nav-item" onclick="navigateTo('missions')">
+                <div class="nav-icon">📦</div>
+                <div class="nav-label">Missions</div>
             </div>
 
-            <div class="nav-item" onclick="navigateTo('tracking')">
-                <div class="nav-icon">📍</div>
-                <div class="nav-label">Suivi</div>
-                <div class="nav-badge">3</div>
+            <div class="nav-item" onclick="navigateTo('trips')">
+                <div class="nav-icon">✈️</div>
+                <div class="nav-label">Trajets</div>
             </div>
 
-            <div class="nav-item" onclick="navigateTo('notifications')">
-                <div class="nav-icon">🔔</div>
-                <div class="nav-label">Notifications</div>
-                <div class="nav-badge">5</div>
+            <div class="nav-item" onclick="navigateTo('claims')">
+                <div class="nav-icon">📝</div>
+                <div class="nav-label">Réclamations</div>
             </div>
 
             <div class="nav-item active" onclick="navigateTo('profile')">
@@ -738,15 +744,15 @@
     </div>
 
     <script>
+        const API_BASE_URL = 'http://localhost:5000/api/v1';
+
         function goBack() {
-            window.location.href = 'dashexpediteur.html';
+            window.location.href = 'dashgp.html';
         }
 
         function editAvatar() {
             alert('Modifier la photo de profil\n\nSélectionnez une nouvelle photo depuis votre galerie.');
         }
-
-        const API_BASE_URL = 'http://localhost:5000/api/v1';
 
         function getAuthToken() {
             return localStorage.getItem('authToken');
@@ -757,34 +763,72 @@
             return userData ? JSON.parse(userData) : null;
         }
 
-        function loadUserProfile() {
-            const user = getUserData();
-            if (!user) {
+        async function loadUserProfile() {
+            const token = getAuthToken();
+            if (!token) {
                 window.location.href = 'connexion.html';
                 return;
             }
 
-            // Update profile display
-            document.getElementById('userName').textContent = user.full_name || 'Utilisateur';
-            document.getElementById('userEmail').textContent = user.email || '';
-            document.getElementById('userPhone').textContent = user.phone_number || '';
+            const user = getUserData();
+            if (user) {
+                // Update basic profile display
+                document.getElementById('userName').textContent = user.first_name && user.last_name
+                    ? `${user.first_name} ${user.last_name}`
+                    : user.full_name || 'Utilisateur';
+                document.getElementById('userEmail').textContent = user.email || '';
+                document.getElementById('userPhone').textContent = user.phone || user.phone_number || '';
 
-            // Update initials
-            const initials = (user.full_name || 'U').split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-            const avatarElements = document.querySelectorAll('.profile-avatar');
-            avatarElements.forEach(el => el.textContent = initials);
+                // Update initials
+                const name = user.first_name && user.last_name
+                    ? `${user.first_name} ${user.last_name}`
+                    : user.full_name || 'U';
+                const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+                document.getElementById('avatarInitials').textContent = initials;
+            }
+
+            // Load GP-specific stats from backend
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/profile`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    const profileData = result.data;
+
+                    // Update stats with real data
+                    if (profileData.gp_profile) {
+                        document.getElementById('statTrips').textContent = profileData.gp_profile.total_trips || 0;
+                        document.getElementById('statMissions').textContent = profileData.gp_profile.total_missions_completed || 0;
+
+                        const rating = profileData.gp_profile.average_rating;
+                        document.getElementById('statRating').textContent = rating ? parseFloat(rating).toFixed(1) : '-';
+                    }
+                } else {
+                    console.error('Failed to load profile stats');
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+            }
         }
 
         function editProfile() {
             const user = getUserData();
-            const newName = prompt('Modifier le nom', user.full_name || '');
-            const newPhone = prompt('Modifier le téléphone', user.phone_number || '');
+            const newName = prompt('Modifier le nom', user ? (user.first_name + ' ' + user.last_name) : '');
+            const newPhone = prompt('Modifier le téléphone', user ? user.phone : '');
 
-            if (newName && newName !== user.full_name) {
-                updateUserProfile({ full_name: newName });
+            if (newName && user) {
+                const names = newName.split(' ');
+                updateUserProfile({
+                    first_name: names[0],
+                    last_name: names.slice(1).join(' ') || names[0]
+                });
             }
-            if (newPhone && newPhone !== user.phone_number) {
-                updateUserProfile({ phone_number: newPhone });
+            if (newPhone && user && newPhone !== user.phone) {
+                updateUserProfile({ phone: newPhone });
             }
         }
 
@@ -863,6 +907,10 @@
             alert('Moyens de paiement\n\nGérez vos cartes bancaires et portefeuilles mobiles.\n\n(Fonctionnalité à venir)');
         }
 
+        function viewEarnings() {
+            alert('Mes gains\n\nConsultez l\'historique de vos gains et revenus générés en tant que GP.\n\n(Fonctionnalité à venir)');
+        }
+
         // Load profile on page load
         window.addEventListener('load', () => {
             loadUserProfile();
@@ -880,7 +928,7 @@
         }
 
         function helpCenter() {
-            alert('Centre d\'aide\n\nAccès aux FAQ et guides d\'utilisation de SEN GP.');
+            alert('Centre d\'aide\n\nAccès aux FAQ et guides d\'utilisation de SEN GP pour les GPs.');
         }
 
         function contactSupport() {
@@ -914,11 +962,11 @@
 
         function navigateTo(section) {
             const pages = {
-                'home': 'dashexpediteur.html',
-                'reclamation': 'reclamation.html',
-                'tracking': 'suivi.html',
-                'notifications': 'notifications.html',
-                'profile': 'profile.html'
+                'home': 'dashgp.html',
+                'missions': 'missions.html',
+                'trips': 'trajets.html',
+                'claims': 'reclamationgp.html',
+                'profile': 'profilegp.html'
             };
 
             if (pages[section]) {

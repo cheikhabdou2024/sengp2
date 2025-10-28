@@ -1032,7 +1032,7 @@
             <div class="header">
                 <div class="header-top">
                     <div class="greeting">
-                        <h1>Chargement... 👋</h1>
+                        <h1>Bonjour, Moussa 👋</h1>
                         <p>Prêt à envoyer un colis ?</p>
                     </div>
                     <div class="profile-avatar" onclick="openProfile()">
@@ -1072,8 +1072,8 @@
                             <span class="stat-label">En cours</span>
                             <span class="stat-icon">📦</span>
                         </div>
-                        <div class="stat-value">0</div>
-                        <div class="stat-change">Chargement...</div>
+                        <div class="stat-value">3</div>
+                        <div class="stat-change">+1 ce mois</div>
                     </div>
 
                     <div class="stat-card">
@@ -1081,8 +1081,8 @@
                             <span class="stat-label">Livrés</span>
                             <span class="stat-icon">✅</span>
                         </div>
-                        <div class="stat-value">0</div>
-                        <div class="stat-change">Chargement...</div>
+                        <div class="stat-value">12</div>
+                        <div class="stat-change">+3 ce mois</div>
                     </div>
 
                     <div class="stat-card">
@@ -1090,8 +1090,8 @@
                             <span class="stat-label">Dépenses</span>
                             <span class="stat-icon">💰</span>
                         </div>
-                        <div class="stat-value">0</div>
-                        <div class="stat-change">Chargement...</div>
+                        <div class="stat-value">285k</div>
+                        <div class="stat-change negative">+45k ce mois</div>
                     </div>
 
                     <div class="stat-card">
@@ -1099,7 +1099,7 @@
                             <span class="stat-label">Économies</span>
                             <span class="stat-icon">💸</span>
                         </div>
-                        <div class="stat-value">0</div>
+                        <div class="stat-value">120k</div>
                         <div class="stat-change">vs services classiques</div>
                     </div>
                 </div>
@@ -1128,7 +1128,82 @@
                     <a href="#" class="view-all" onclick="viewAllShipments()">Voir tout</a>
                 </div>
 
-                <!-- Les missions seront chargées ici dynamiquement par JavaScript -->
+                <!-- Shipment Card 1 -->
+                <div class="shipment-card" onclick="viewShipmentDetails('SG-20251020-A1B2')">
+                    <div class="shipment-header">
+                        <span class="shipment-id">SG-20251020-A1B2</span>
+                        <span class="shipment-status status-in-transit">En transit</span>
+                    </div>
+                    <div class="shipment-route">
+                        <div class="route-location">
+                            <span class="flag">🇸🇳</span>
+                            <span>Dakar</span>
+                        </div>
+                        <span class="route-arrow">→</span>
+                        <div class="route-location">
+                            <span class="flag">🇫🇷</span>
+                            <span>Paris</span>
+                        </div>
+                    </div>
+                    <div class="shipment-footer">
+                        <span class="shipment-date">Départ: 18 Oct 2025</span>
+                        <div class="shipment-carrier">
+                            <div class="carrier-avatar">AM</div>
+                            <span>Amadou D.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shipment Card 2 -->
+                <div class="shipment-card" onclick="viewShipmentDetails('SG-20251015-C3D4')">
+                    <div class="shipment-header">
+                        <span class="shipment-id">SG-20251015-C3D4</span>
+                        <span class="shipment-status status-delivered">Livré</span>
+                    </div>
+                    <div class="shipment-route">
+                        <div class="route-location">
+                            <span class="flag">🇸🇳</span>
+                            <span>Dakar</span>
+                        </div>
+                        <span class="route-arrow">→</span>
+                        <div class="route-location">
+                            <span class="flag">🇺🇸</span>
+                            <span>New York</span>
+                        </div>
+                    </div>
+                    <div class="shipment-footer">
+                        <span class="shipment-date">Livré: 15 Oct 2025</span>
+                        <div class="shipment-carrier">
+                            <div class="carrier-avatar">FA</div>
+                            <span>Fatou S.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shipment Card 3 -->
+                <div class="shipment-card" onclick="viewShipmentDetails('SG-20251012-E5F6')">
+                    <div class="shipment-header">
+                        <span class="shipment-id">SG-20251012-E5F6</span>
+                        <span class="shipment-status status-pending">En attente</span>
+                    </div>
+                    <div class="shipment-route">
+                        <div class="route-location">
+                            <span class="flag">🇸🇳</span>
+                            <span>Dakar</span>
+                        </div>
+                        <span class="route-arrow">→</span>
+                        <div class="route-location">
+                            <span class="flag">🇬🇧</span>
+                            <span>Londres</span>
+                        </div>
+                    </div>
+                    <div class="shipment-footer">
+                        <span class="shipment-date">Créé: 12 Oct 2025</span>
+                        <div class="shipment-carrier">
+                            <span style="color: rgba(255, 255, 255, 0.5);">Recherche GP...</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1196,309 +1271,6 @@
     </div>
 
     <script>
-        // Configuration de l'API
-        const API_BASE_URL = 'http://localhost:5000/api/v1';
-
-        // Récupérer le token d'authentification
-        function getAuthToken() {
-            return localStorage.getItem('authToken');
-        }
-
-        // Récupérer les données utilisateur
-        function getUserData() {
-            const userData = localStorage.getItem('userData');
-            return userData ? JSON.parse(userData) : null;
-        }
-
-        // Charger les données du dashboard au chargement de la page
-        async function loadDashboardData() {
-            console.log('=== DASHBOARD LOADING ===');
-
-            // Afficher tout le contenu de localStorage
-            console.log('LocalStorage keys:', Object.keys(localStorage));
-            console.log('All localStorage items:');
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                console.log(`  ${key}:`, localStorage.getItem(key));
-            }
-
-            const token = getAuthToken();
-            const userData = getUserData();
-
-            console.log('Retrieved Token:', token ? 'Present (' + token.substring(0, 20) + '...)' : 'Missing');
-            console.log('Retrieved User Data:', userData);
-
-            if (!token || !userData) {
-                // Rediriger vers la page de connexion si pas authentifié
-                console.error('Authentication failed!');
-                console.error('  Token present:', !!token);
-                console.error('  User data present:', !!userData);
-                alert('Session expirée. Veuillez vous reconnecter.');
-                window.location.href = 'connexion.html';
-                return;
-            }
-
-            console.log('Authentication OK - Loading dashboard data...');
-
-            // Mettre à jour le nom de l'utilisateur
-            const firstName = userData.first_name || userData.firstName || 'Utilisateur';
-            document.querySelector('.greeting h1').textContent = `Bonjour, ${firstName} 👋`;
-
-            try {
-                // Charger les missions de l'utilisateur
-                await loadUserMissions(token);
-
-                // Charger les statistiques
-                await loadUserStats(token);
-            } catch (error) {
-                console.error('Erreur lors du chargement des données:', error);
-            }
-        }
-
-        // Charger les missions de l'utilisateur
-        async function loadUserMissions(token) {
-            try {
-                const response = await fetch(`${API_BASE_URL}/missions/my-missions`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error('Erreur lors du chargement des missions');
-                }
-
-                const result = await response.json();
-                const missions = result.data || [];
-
-                // Mettre à jour l'affichage des missions
-                displayMissions(missions);
-            } catch (error) {
-                console.error('Erreur:', error);
-                // Afficher les données mock en cas d'erreur
-                console.log('Utilisation des données mock');
-            }
-        }
-
-        // Charger les statistiques de l'utilisateur
-        async function loadUserStats(token) {
-            try {
-                const response = await fetch(`${API_BASE_URL}/missions/my-missions`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error('Erreur lors du chargement des statistiques');
-                }
-
-                const result = await response.json();
-                const missions = result.data || [];
-
-                // Calculer les statistiques
-                const stats = calculateStats(missions);
-
-                // Mettre à jour l'affichage des statistiques
-                updateStatsDisplay(stats);
-            } catch (error) {
-                console.error('Erreur:', error);
-            }
-        }
-
-        // Calculer les statistiques à partir des missions
-        function calculateStats(missions) {
-            const stats = {
-                enCours: 0,
-                livres: 0,
-                depenses: 0,
-                economisees: 0
-            };
-
-            missions.forEach(mission => {
-                const status = mission.status.toLowerCase();
-
-                if (['pending', 'matched', 'accepted', 'picked_up', 'in_transit', 'in_customs', 'out_for_delivery'].includes(status)) {
-                    stats.enCours++;
-                } else if (status === 'delivered') {
-                    stats.livres++;
-                }
-
-                if (mission.final_price || mission.offered_price) {
-                    stats.depenses += parseFloat(mission.final_price || mission.offered_price);
-                }
-            });
-
-            // Estimation des économies (30% par rapport aux services classiques)
-            stats.economisees = Math.round(stats.depenses * 0.3);
-
-            return stats;
-        }
-
-        // Mettre à jour l'affichage des statistiques
-        function updateStatsDisplay(stats) {
-            const statCards = document.querySelectorAll('.stat-card');
-
-            // En cours
-            statCards[0].querySelector('.stat-value').textContent = stats.enCours;
-            statCards[0].querySelector('.stat-change').textContent = stats.enCours > 0 ? 'Missions actives' : 'Aucune mission';
-
-            // Livrés
-            statCards[1].querySelector('.stat-value').textContent = stats.livres;
-            statCards[1].querySelector('.stat-change').textContent = stats.livres > 0 ? 'Missions terminées' : 'Aucune livraison';
-
-            // Dépenses
-            statCards[2].querySelector('.stat-value').textContent = formatPrice(stats.depenses);
-            statCards[2].querySelector('.stat-change').textContent = stats.depenses > 0 ? 'Total dépensé' : 'Aucune dépense';
-
-            // Économies
-            statCards[3].querySelector('.stat-value').textContent = formatPrice(stats.economisees);
-        }
-
-        // Formater le prix
-        function formatPrice(amount) {
-            if (amount >= 1000000) {
-                return Math.round(amount / 1000000) + 'M';
-            } else if (amount >= 1000) {
-                return Math.round(amount / 1000) + 'k';
-            }
-            return Math.round(amount);
-        }
-
-        // Afficher les missions
-        function displayMissions(missions) {
-            const shipmentsSection = document.querySelector('.shipments-section');
-            const existingCards = shipmentsSection.querySelectorAll('.shipment-card');
-
-            // Supprimer les cartes existantes
-            existingCards.forEach(card => card.remove());
-
-            if (missions.length === 0) {
-                // Afficher un message si aucune mission
-                const emptyState = document.createElement('div');
-                emptyState.className = 'empty-state';
-                emptyState.innerHTML = `
-                    <div class="empty-icon">📦</div>
-                    <div class="empty-title">Aucun envoi</div>
-                    <div class="empty-description">Vous n'avez pas encore créé d'envoi. Commencez dès maintenant !</div>
-                `;
-                shipmentsSection.appendChild(emptyState);
-                return;
-            }
-
-            // Afficher les 3 dernières missions
-            const recentMissions = missions.slice(0, 3);
-            recentMissions.forEach(mission => {
-                const card = createMissionCard(mission);
-                shipmentsSection.appendChild(card);
-            });
-        }
-
-        // Créer une carte de mission
-        function createMissionCard(mission) {
-            const card = document.createElement('div');
-            card.className = 'shipment-card';
-            card.onclick = () => viewShipmentDetails(mission.mission_code);
-
-            const statusClass = getStatusClass(mission.status);
-            const statusText = getStatusText(mission.status);
-            const departureFlag = getCountryFlag(mission.departure_country);
-            const arrivalFlag = getCountryFlag(mission.arrival_country);
-
-            card.innerHTML = `
-                <div class="shipment-header">
-                    <span class="shipment-id">${mission.mission_code || mission.tracking_number}</span>
-                    <span class="shipment-status ${statusClass}">${statusText}</span>
-                </div>
-                <div class="shipment-route">
-                    <div class="route-location">
-                        <span class="flag">${departureFlag}</span>
-                        <span>${mission.departure_city}</span>
-                    </div>
-                    <span class="route-arrow">→</span>
-                    <div class="route-location">
-                        <span class="flag">${arrivalFlag}</span>
-                        <span>${mission.arrival_city}</span>
-                    </div>
-                </div>
-                <div class="shipment-footer">
-                    <span class="shipment-date">Créé: ${formatDate(mission.created_at)}</span>
-                    <div class="shipment-carrier">
-                        ${mission.gp_id ? `<div class="carrier-avatar">GP</div><span>GP assigné</span>` : `<span style="color: rgba(255, 255, 255, 0.5);">Recherche GP...</span>`}
-                    </div>
-                </div>
-            `;
-
-            return card;
-        }
-
-        // Obtenir la classe CSS pour le statut
-        function getStatusClass(status) {
-            const statusMap = {
-                'pending': 'status-pending',
-                'matched': 'status-pending',
-                'accepted': 'status-in-transit',
-                'picked_up': 'status-in-transit',
-                'in_transit': 'status-in-transit',
-                'in_customs': 'status-in-transit',
-                'out_for_delivery': 'status-in-transit',
-                'delivered': 'status-delivered',
-                'cancelled': 'status-pending',
-                'disputed': 'status-pending'
-            };
-            return statusMap[status.toLowerCase()] || 'status-pending';
-        }
-
-        // Obtenir le texte du statut en français
-        function getStatusText(status) {
-            const statusMap = {
-                'pending': 'En attente',
-                'matched': 'Correspondance trouvée',
-                'accepted': 'Accepté',
-                'picked_up': 'Récupéré',
-                'in_transit': 'En transit',
-                'in_customs': 'En douane',
-                'out_for_delivery': 'En livraison',
-                'delivered': 'Livré',
-                'cancelled': 'Annulé',
-                'disputed': 'Litige'
-            };
-            return statusMap[status.toLowerCase()] || status;
-        }
-
-        // Obtenir le drapeau du pays
-        function getCountryFlag(country) {
-            const countryFlags = {
-                'Sénégal': '🇸🇳',
-                'France': '🇫🇷',
-                'États-Unis': '🇺🇸',
-                'USA': '🇺🇸',
-                'Royaume-Uni': '🇬🇧',
-                'UK': '🇬🇧',
-                'Canada': '🇨🇦',
-                'Espagne': '🇪🇸',
-                'Italie': '🇮🇹',
-                'Allemagne': '🇩🇪',
-                'Belgique': '🇧🇪',
-                'Suisse': '🇨🇭',
-                'Maroc': '🇲🇦',
-                'Algérie': '🇩🇿',
-                'Tunisie': '🇹🇳'
-            };
-            return countryFlags[country] || '🌍';
-        }
-
-        // Formater la date
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            const options = { day: 'numeric', month: 'short', year: 'numeric' };
-            return date.toLocaleDateString('fr-FR', options);
-        }
-
         // Database des pays avec drapeaux et villes principales
         const countries = [
             { flag: '🇸🇳', name: 'Sénégal', city: 'Dakar', code: 'SN' },
@@ -1647,25 +1419,18 @@
             });
 
             // Add active class to clicked item
-            if (event && event.currentTarget) {
-                event.currentTarget.classList.add('active');
-            }
+            event.currentTarget.classList.add('active');
 
-            // Navigate to the appropriate page
-            const pages = {
-                'home': 'dashexpediteur.html',
-                'reclamation': 'reclamation.html',
-                'tracking': 'suivi.html',
-                'notifications': 'notifications.html',
-                'profile': 'profile.html'
+            // Section descriptions
+            const sections = {
+                'home': 'Accueil\n\nTableau de bord principal avec statistiques et envois récents',
+                'reclamation': 'Réclamation\n\nDéposer et suivre vos réclamations (1 en attente)',
+                'tracking': 'Suivi\n\nSuivre vos 3 colis en temps réel avec carte interactive',
+                'notifications': 'Notifications\n\nVoir vos 5 notifications non lues',
+                'profile': 'Profil\n\nGérer vos informations personnelles et paramètres'
             };
 
-            if (pages[section]) {
-                // Don't reload if already on the same page
-                if (section !== 'home') {
-                    window.location.href = pages[section];
-                }
-            }
+            alert(`Navigation vers: ${sections[section]}`);
         }
 
         // Keyboard navigation support
@@ -1681,13 +1446,10 @@
         // Animation on load
         window.addEventListener('load', () => {
             document.querySelector('.content').style.opacity = '0';
-
+            
             setTimeout(() => {
                 document.querySelector('.content').style.transition = 'opacity 0.8s ease';
                 document.querySelector('.content').style.opacity = '1';
-
-                // Charger les données du dashboard
-                loadDashboardData();
             }, 100);
         });
     </script>

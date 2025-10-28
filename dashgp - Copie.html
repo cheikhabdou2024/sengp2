@@ -307,84 +307,6 @@
             color: #1a1a2e;
         }
 
-        /* Action Button Variants */
-        .action-button-primary {
-            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
-            box-shadow: 0 8px 20px rgba(78, 205, 196, 0.4);
-        }
-
-        .action-button-primary:hover {
-            box-shadow: 0 12px 28px rgba(78, 205, 196, 0.5);
-        }
-
-        .action-button-primary .action-title,
-        .action-button-primary .action-subtitle,
-        .action-button-primary .action-arrow {
-            color: #ffffff;
-        }
-
-        .action-button-secondary {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            box-shadow: none;
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .action-button-secondary .action-title {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .action-button-secondary .action-subtitle {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .action-button-secondary .action-arrow {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .action-button-secondary:hover {
-            transform: none;
-            box-shadow: none;
-        }
-
-        /* Info Section */
-        .info-section {
-            padding: 15px 20px 20px;
-        }
-
-        .info-card {
-            background: linear-gradient(135deg, rgba(78, 205, 196, 0.1) 0%, rgba(68, 160, 141, 0.1) 100%);
-            border: 1px solid rgba(78, 205, 196, 0.2);
-            border-radius: 16px;
-            padding: 20px;
-            display: flex;
-            gap: 16px;
-        }
-
-        .info-icon {
-            font-size: 32px;
-            flex-shrink: 0;
-        }
-
-        .info-content h3 {
-            font-size: 16px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 12px;
-        }
-
-        .info-content ol {
-            margin-left: 20px;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
-        .info-content ol li {
-            margin-bottom: 8px;
-        }
-
         /* Mission Cards */
         .missions-section {
             padding: 15px 20px;
@@ -634,7 +556,7 @@
             <div class="header">
                 <div class="header-top">
                     <div class="greeting">
-                        <h1>Bonjour, GP 👋</h1>
+                        <h1>Bonjour, Amadou 👋</h1>
                         <p>Prêt pour une nouvelle mission ?</p>
                     </div>
                     <div class="profile-avatar" onclick="openProfile()">
@@ -645,8 +567,8 @@
                 <!-- Rating Badge -->
                 <div class="rating-badge">
                     <span class="star">⭐</span>
-                    <span class="rating" id="gpRating">--</span>
-                    <span class="reviews" id="gpReviews">(-- avis)</span>
+                    <span class="rating">4.9</span>
+                    <span class="reviews">(47 avis)</span>
                 </div>
             </div>
 
@@ -658,7 +580,7 @@
                             <span class="stat-label">Missions actives</span>
                             <span class="stat-icon">📦</span>
                         </div>
-                        <div class="stat-value">--</div>
+                        <div class="stat-value">2</div>
                         <div class="stat-change">En cours</div>
                     </div>
 
@@ -667,8 +589,8 @@
                             <span class="stat-label">Missions terminées</span>
                             <span class="stat-icon">✅</span>
                         </div>
-                        <div class="stat-value">--</div>
-                        <div class="stat-change">--</div>
+                        <div class="stat-value">34</div>
+                        <div class="stat-change">+5 ce mois</div>
                     </div>
 
                     <div class="stat-card stat-card-full">
@@ -676,8 +598,8 @@
                             <span class="stat-label">Gains totaux</span>
                             <span class="stat-icon">💰</span>
                         </div>
-                        <div class="stat-value">-- FCFA</div>
-                        <div class="stat-change info">--</div>
+                        <div class="stat-value">1,245,000 FCFA</div>
+                        <div class="stat-change info">+185,000 ce mois</div>
                     </div>
                 </div>
             </div>
@@ -685,41 +607,175 @@
             <!-- Quick Actions -->
             <div class="quick-actions">
                 <div class="section-header">
-                    <h2 class="section-title">Actions rapides</h2>
+                    <h2 class="section-title">Action rapide</h2>
                 </div>
 
-                <!-- Créer un trajet Button -->
-                <button class="action-button action-button-primary" onclick="createTrip()">
-                    <div class="action-icon">✈️</div>
-                    <div class="action-text">
-                        <div class="action-title">Créer un trajet</div>
-                        <div class="action-subtitle">Ajoutez votre prochain voyage</div>
-                    </div>
-                    <div class="action-arrow">→</div>
-                </button>
-
-                <!-- Rechercher missions Button (disabled until trip created) -->
-                <button class="action-button action-button-secondary" onclick="searchMissions()" id="searchMissionsBtn">
+                <button class="action-button" onclick="searchMissions()">
                     <div class="action-icon">🔍</div>
                     <div class="action-text">
                         <div class="action-title">Rechercher des missions</div>
-                        <div class="action-subtitle">Créez un trajet d'abord</div>
+                        <div class="action-subtitle">5 nouvelles missions disponibles</div>
                     </div>
                     <div class="action-arrow">→</div>
                 </button>
             </div>
 
-            <!-- Info Message -->
-            <div class="info-section">
-                <div class="info-card">
-                    <div class="info-icon">ℹ️</div>
-                    <div class="info-content">
-                        <h3>Comment ça marche ?</h3>
-                        <ol>
-                            <li>Créez un trajet en ajoutant votre billet d'avion et les détails de votre voyage</li>
-                            <li>Notre système vous proposera automatiquement des missions correspondant à votre trajet</li>
-                            <li>Acceptez les missions qui vous conviennent et gagnez de l'argent en voyageant</li>
-                        </ol>
+            <!-- New Missions Available -->
+            <div class="missions-section">
+                <div class="section-header">
+                    <h2 class="section-title">Nouvelles missions</h2>
+                    <a href="#" class="view-all" onclick="viewAllMissions()">Voir tout</a>
+                </div>
+
+                <!-- Mission Card 1 - NEW -->
+                <div class="mission-card new" onclick="viewMissionDetails('MIS-001')">
+                    <div class="mission-header">
+                        <span class="mission-price">65,000 FCFA</span>
+                        <span class="mission-status status-new">🔥 Nouveau</span>
+                    </div>
+                    <div class="mission-route">
+                        <div class="route-location">
+                            <span class="flag">🇸🇳</span>
+                            <span>Dakar</span>
+                        </div>
+                        <span class="route-arrow">→</span>
+                        <div class="route-location">
+                            <span class="flag">🇫🇷</span>
+                            <span>Paris</span>
+                        </div>
+                    </div>
+                    <div class="mission-details">
+                        <div class="detail-item">
+                            <span>📦</span>
+                            <span>3.5 kg</span>
+                        </div>
+                        <div class="detail-item">
+                            <span>📏</span>
+                            <span>30x25x15 cm</span>
+                        </div>
+                    </div>
+                    <div class="mission-footer">
+                        <span class="mission-date">Départ: 25 Oct 2025</span>
+                        <div class="mission-client">
+                            <div class="client-avatar">MD</div>
+                            <span>Moussa D.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mission Card 2 - NEW -->
+                <div class="mission-card new" onclick="viewMissionDetails('MIS-002')">
+                    <div class="mission-header">
+                        <span class="mission-price">45,000 FCFA</span>
+                        <span class="mission-status status-new">🔥 Nouveau</span>
+                    </div>
+                    <div class="mission-route">
+                        <div class="route-location">
+                            <span class="flag">🇸🇳</span>
+                            <span>Dakar</span>
+                        </div>
+                        <span class="route-arrow">→</span>
+                        <div class="route-location">
+                            <span class="flag">🇪🇸</span>
+                            <span>Madrid</span>
+                        </div>
+                    </div>
+                    <div class="mission-details">
+                        <div class="detail-item">
+                            <span>📦</span>
+                            <span>2 kg</span>
+                        </div>
+                        <div class="detail-item">
+                            <span>📏</span>
+                            <span>25x20x10 cm</span>
+                        </div>
+                    </div>
+                    <div class="mission-footer">
+                        <span class="mission-date">Départ: 28 Oct 2025</span>
+                        <div class="mission-client">
+                            <div class="client-avatar">FS</div>
+                            <span>Fatou S.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- My Active Missions -->
+            <div class="missions-section">
+                <div class="section-header">
+                    <h2 class="section-title">Mes missions actives</h2>
+                    <a href="#" class="view-all" onclick="viewMyMissions()">Voir tout</a>
+                </div>
+
+                <!-- Mission Card 3 - ACTIVE -->
+                <div class="mission-card" onclick="viewMissionDetails('MIS-101')">
+                    <div class="mission-header">
+                        <span class="mission-price">55,000 FCFA</span>
+                        <span class="mission-status status-active">En cours</span>
+                    </div>
+                    <div class="mission-route">
+                        <div class="route-location">
+                            <span class="flag">🇸🇳</span>
+                            <span>Dakar</span>
+                        </div>
+                        <span class="route-arrow">→</span>
+                        <div class="route-location">
+                            <span class="flag">🇫🇷</span>
+                            <span>Paris</span>
+                        </div>
+                    </div>
+                    <div class="mission-details">
+                        <div class="detail-item">
+                            <span>📦</span>
+                            <span>4 kg</span>
+                        </div>
+                        <div class="detail-item">
+                            <span>📏</span>
+                            <span>35x30x20 cm</span>
+                        </div>
+                    </div>
+                    <div class="mission-footer">
+                        <span class="mission-date">En transit - Arrivée: 21 Oct</span>
+                        <div class="mission-client">
+                            <div class="client-avatar">AS</div>
+                            <span>Aissatou S.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mission Card 4 - COMPLETED -->
+                <div class="mission-card" onclick="viewMissionDetails('MIS-095')">
+                    <div class="mission-header">
+                        <span class="mission-price">50,000 FCFA</span>
+                        <span class="mission-status status-completed">Terminée</span>
+                    </div>
+                    <div class="mission-route">
+                        <div class="route-location">
+                            <span class="flag">🇸🇳</span>
+                            <span>Dakar</span>
+                        </div>
+                        <span class="route-arrow">→</span>
+                        <div class="route-location">
+                            <span class="flag">🇺🇸</span>
+                            <span>New York</span>
+                        </div>
+                    </div>
+                    <div class="mission-details">
+                        <div class="detail-item">
+                            <span>📦</span>
+                            <span>3 kg</span>
+                        </div>
+                        <div class="detail-item">
+                            <span>📏</span>
+                            <span>28x22x12 cm</span>
+                        </div>
+                    </div>
+                    <div class="mission-footer">
+                        <span class="mission-date">Livrée le 15 Oct 2025</span>
+                        <div class="mission-client">
+                            <div class="client-avatar">IB</div>
+                            <span>Ibrahima B.</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -744,9 +800,9 @@
                 <div class="nav-badge">2</div>
             </div>
 
-            <div class="nav-item" onclick="navigateTo('claims')" tabindex="0" role="button" aria-label="Réclamations">
-                <div class="nav-icon">📝</div>
-                <div class="nav-label">Réclamations</div>
+            <div class="nav-item" onclick="navigateTo('earnings')" tabindex="0" role="button" aria-label="Gains">
+                <div class="nav-icon">💰</div>
+                <div class="nav-label">Gains</div>
             </div>
 
             <div class="nav-item" onclick="navigateTo('profile')" tabindex="0" role="button" aria-label="Profil">
@@ -757,336 +813,12 @@
     </div>
 
     <script>
-        // API Configuration
-        const API_BASE_URL = 'http://localhost:5000/api/v1';
-        let currentUser = null;
-        let authToken = null;
-
-        // Check authentication on page load
-        window.addEventListener('DOMContentLoaded', async () => {
-            await checkAuthentication();
-            await loadDashboardData();
-        });
-
-        async function checkAuthentication() {
-            authToken = localStorage.getItem('authToken');
-            const userData = localStorage.getItem('userData');
-
-            if (!authToken || !userData) {
-                alert('Vous devez vous connecter pour accéder au dashboard');
-                window.location.href = 'connexion.html';
-                return;
-            }
-
-            try {
-                currentUser = JSON.parse(userData);
-
-                // Verify user is GP
-                if (currentUser.user_type !== 'gp') {
-                    alert('Accès non autorisé. Ce dashboard est réservé aux GP.');
-                    window.location.href = 'connexion.html';
-                    return;
-                }
-
-                // Update header with user info
-                updateHeader();
-            } catch (error) {
-                console.error('Error parsing user data:', error);
-                window.location.href = 'connexion.html';
-            }
-        }
-
-        function updateHeader() {
-            const greetingName = document.querySelector('.greeting h1');
-            const firstName = currentUser.first_name || 'GP';
-            greetingName.textContent = `Bonjour, ${firstName} 👋`;
-        }
-
-        async function loadDashboardData() {
-            try {
-                // Show loading state
-                console.log('Loading dashboard data...');
-
-                // Load all data in parallel
-                await Promise.all([
-                    loadStats(),
-                    loadNewMissions(),
-                    loadMyMissions()
-                ]);
-
-                console.log('Dashboard data loaded successfully');
-            } catch (error) {
-                console.error('Error loading dashboard data:', error);
-            }
-        }
-
-        async function loadStats() {
-            try {
-                // Get GP's missions
-                const response = await fetch(`${API_BASE_URL}/missions/my-missions?limit=1000`, {
-                    headers: {
-                        'Authorization': `Bearer ${authToken}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to load stats');
-                }
-
-                const result = await response.json();
-                const missions = result.data || [];
-
-                // Calculate statistics
-                const activeMissions = missions.filter(m =>
-                    ['accepted', 'in_transit', 'picked_up'].includes(m.status)
-                ).length;
-
-                const completedMissions = missions.filter(m =>
-                    m.status === 'delivered'
-                ).length;
-
-                const totalEarnings = missions
-                    .filter(m => m.status === 'delivered')
-                    .reduce((sum, m) => sum + (parseFloat(m.price) || 0), 0);
-
-                // Update UI
-                document.querySelectorAll('.stat-value')[0].textContent = activeMissions;
-                document.querySelectorAll('.stat-value')[1].textContent = completedMissions;
-                document.querySelectorAll('.stat-value')[2].textContent =
-                    `${totalEarnings.toLocaleString('fr-FR')} FCFA`;
-
-            } catch (error) {
-                console.error('Error loading stats:', error);
-            }
-        }
-
-        async function loadNewMissions() {
-            try {
-                // Get pending missions (not yet accepted)
-                const response = await fetch(`${API_BASE_URL}/missions?status=pending&limit=5`, {
-                    headers: {
-                        'Authorization': `Bearer ${authToken}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to load new missions');
-                }
-
-                const result = await response.json();
-                const missions = result.data || [];
-
-                // Update new missions count in action button
-                const actionSubtitle = document.querySelector('.action-subtitle');
-                actionSubtitle.textContent = `${missions.length} nouvelles missions disponibles`;
-
-                // Update badge
-                const missionsBadge = document.querySelector('.nav-item[onclick*="missions"] .nav-badge');
-                if (missionsBadge) {
-                    missionsBadge.textContent = missions.length;
-                }
-
-                // Display new missions
-                displayNewMissions(missions.slice(0, 2));
-
-            } catch (error) {
-                console.error('Error loading new missions:', error);
-            }
-        }
-
-        async function loadMyMissions() {
-            try {
-                // Get GP's accepted missions
-                const response = await fetch(`${API_BASE_URL}/missions/my-missions?limit=10`, {
-                    headers: {
-                        'Authorization': `Bearer ${authToken}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to load my missions');
-                }
-
-                const result = await response.json();
-                const missions = result.data || [];
-
-                // Filter active missions
-                const activeMissions = missions.filter(m =>
-                    ['accepted', 'in_transit', 'picked_up'].includes(m.status)
-                );
-
-                // Update badge
-                const tripsBadge = document.querySelector('.nav-item[onclick*="trips"] .nav-badge');
-                if (tripsBadge) {
-                    tripsBadge.textContent = activeMissions.length;
-                }
-
-                // Display my missions
-                displayMyMissions(missions.slice(0, 2));
-
-            } catch (error) {
-                console.error('Error loading my missions:', error);
-            }
-        }
-
-        function displayNewMissions(missions) {
-            const cardsContainer = document.getElementById('newMissionsContainer');
-
-            if (!cardsContainer) return;
-
-            // Clear container
-            cardsContainer.innerHTML = '';
-
-            if (missions.length === 0) {
-                cardsContainer.innerHTML = `
-                    <div style="text-align: center; padding: 40px 20px; color: rgba(255,255,255,0.5);">
-                        <div style="font-size: 48px; margin-bottom: 16px;">📭</div>
-                        <p>Aucune nouvelle mission pour le moment</p>
-                    </div>
-                `;
-                return;
-            }
-
-            missions.forEach(mission => {
-                const card = createMissionCard(mission, 'new');
-                cardsContainer.appendChild(card);
-            });
-        }
-
-        function displayMyMissions(missions) {
-            const cardsContainer = document.getElementById('myMissionsContainer');
-
-            if (!cardsContainer) return;
-
-            // Clear container
-            cardsContainer.innerHTML = '';
-
-            if (missions.length === 0) {
-                cardsContainer.innerHTML = `
-                    <div style="text-align: center; padding: 40px 20px; color: rgba(255,255,255,0.5);">
-                        <div style="font-size: 48px; margin-bottom: 16px;">📦</div>
-                        <p>Vous n'avez pas encore accepté de mission</p>
-                    </div>
-                `;
-                return;
-            }
-
-            missions.forEach(mission => {
-                const statusType = getStatusType(mission.status);
-                const card = createMissionCard(mission, statusType);
-                cardsContainer.appendChild(card);
-            });
-        }
-
-        function createMissionCard(mission, statusType) {
-            const card = document.createElement('div');
-            card.className = statusType === 'new' ? 'mission-card new' : 'mission-card';
-            card.onclick = () => viewMissionDetails(mission.id);
-
-            const statusInfo = getStatusInfo(mission.status);
-            const price = parseFloat(mission.price || 0).toLocaleString('fr-FR');
-
-            card.innerHTML = `
-                <div class="mission-header">
-                    <span class="mission-price">${price} FCFA</span>
-                    <span class="mission-status ${statusInfo.class}">${statusInfo.label}</span>
-                </div>
-                <div class="mission-route">
-                    <div class="route-location">
-                        <span class="flag">${getCountryFlag(mission.departure_country)}</span>
-                        <span>${mission.departure_city}</span>
-                    </div>
-                    <span class="route-arrow">→</span>
-                    <div class="route-location">
-                        <span class="flag">${getCountryFlag(mission.arrival_country)}</span>
-                        <span>${mission.arrival_city}</span>
-                    </div>
-                </div>
-                <div class="mission-details">
-                    <div class="detail-item">
-                        <span>📦</span>
-                        <span>${mission.weight || 'N/A'} kg</span>
-                    </div>
-                    <div class="detail-item">
-                        <span>📏</span>
-                        <span>${mission.dimensions || 'N/A'}</span>
-                    </div>
-                </div>
-                <div class="mission-footer">
-                    <span class="mission-date">${formatDate(mission.departure_date)}</span>
-                    <div class="mission-client">
-                        <div class="client-avatar">${getInitials(mission.expediteur_name)}</div>
-                        <span>${mission.expediteur_name || 'Client'}</span>
-                    </div>
-                </div>
-            `;
-
-            return card;
-        }
-
-        function getStatusInfo(status) {
-            const statusMap = {
-                'pending': { label: '🔥 Nouveau', class: 'status-new' },
-                'accepted': { label: 'En cours', class: 'status-active' },
-                'in_transit': { label: 'En transit', class: 'status-active' },
-                'picked_up': { label: 'Récupéré', class: 'status-active' },
-                'delivered': { label: 'Terminée', class: 'status-completed' },
-                'cancelled': { label: 'Annulée', class: 'status-cancelled' }
-            };
-            return statusMap[status] || { label: status, class: '' };
-        }
-
-        function getStatusType(status) {
-            if (status === 'pending') return 'new';
-            if (status === 'delivered') return 'completed';
-            return 'active';
-        }
-
-        function getCountryFlag(country) {
-            const flags = {
-                'Sénégal': '🇸🇳',
-                'France': '🇫🇷',
-                'Espagne': '🇪🇸',
-                'Italie': '🇮🇹',
-                'USA': '🇺🇸',
-                'Canada': '🇨🇦'
-            };
-            return flags[country] || '🌍';
-        }
-
-        function getInitials(name) {
-            if (!name) return '??';
-            const parts = name.split(' ');
-            if (parts.length >= 2) {
-                return parts[0][0] + parts[1][0];
-            }
-            return name.substring(0, 2).toUpperCase();
-        }
-
-        function formatDate(dateString) {
-            if (!dateString) return 'Date non définie';
-            const date = new Date(dateString);
-            const options = { day: 'numeric', month: 'short', year: 'numeric' };
-            return `Départ: ${date.toLocaleDateString('fr-FR', options)}`;
-        }
-
         function openProfile() {
             window.location.href = 'profilegp.html';
         }
 
-        function createTrip() {
-            // Redirect to trip creation page
-            window.location.href = 'creetrajet.html';
-        }
-
         function searchMissions() {
-            // Check if user has created a trip first
-            // For now, show alert - will be replaced with actual check
-            alert('Veuillez créer un trajet d\'abord pour voir les missions disponibles.');
-            // window.location.href = 'missions.html';
+            window.location.href = 'missions.html';
         }
 
         function viewAllMissions() {
@@ -1100,7 +832,7 @@
         }
 
         function viewMissionDetails(missionId) {
-            alert(`Détails de la mission\n\nID: ${missionId}\n\nVous pouvez accepter cette mission depuis la page Missions.\n\nFonctionnalités à venir:\n- Voir tous les détails\n- Accepter/Refuser la mission\n- Communiquer avec l'expéditeur`);
+            alert(`Détails de la mission\n\nID: ${missionId}\n\nInformations complètes:\n- Informations du colis\n- Détails du client\n- Itinéraire\n- Rémunération\n- Conditions de transport`);
         }
 
         function navigateTo(section) {
@@ -1116,7 +848,7 @@
                 'home': 'dashgp.html',
                 'missions': 'missions.html',
                 'trips': 'trajets.html',
-                'claims': 'reclamationgp.html',
+                'earnings': 'gains.html',
                 'profile': 'profilegp.html'
             };
 

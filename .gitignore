@@ -1,1 +1,22 @@
 .vercel
+node_modules/
+dist/
+.DS_Store
+*.log
+.vscode/
+.idea/
+
+# Capacitor
+android/
+ios/
+*.keystore
+*.jks
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Build files
+build/
+www/

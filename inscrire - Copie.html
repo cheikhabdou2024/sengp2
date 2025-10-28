@@ -830,81 +830,16 @@
             alert(`Inscription avec ${provider}`);
         }
 
-        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
             if (Object.values(validations).every(v => v === true)) {
-                try {
-                    // Afficher un loader
-                    const submitButton = document.getElementById('signupBtn');
-                    const originalText = submitButton.textContent;
-                    submitButton.textContent = 'Inscription en cours...';
-                    submitButton.disabled = true;
+                alert('Inscription réussie !\n\nVous allez recevoir un email de vérification.');
 
-                    // Récupérer les valeurs du formulaire
-                    const fullname = document.getElementById('fullname').value;
-                    const email = document.getElementById('email').value;
-                    const phone = document.getElementById('phone').value;
-                    const password = document.getElementById('password').value;
-
-                    // Séparer le nom complet en prénom et nom de famille
-                    const nameParts = fullname.trim().split(' ');
-                    const firstName = nameParts[0];
-                    const lastName = nameParts.slice(1).join(' ') || nameParts[0];
-
-                    // Déterminer le type d'utilisateur
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const accountType = urlParams.get('type');
-                    const userType = accountType === 'carrier' ? 'gp' : 'expediteur';
-
-                    // Appeler l'API d'inscription
-                    const response = await fetch('http://localhost:5000/api/v1/auth/register', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            email: email,
-                            phone: phone,
-                            password: password,
-                            user_type: userType,
-                            first_name: firstName,
-                            last_name: lastName
-                        })
-                    });
-
-                    const result = await response.json();
-
-                    if (response.ok && result.success) {
-                        // Sauvegarder le token et les données utilisateur
-                        localStorage.setItem('authToken', result.data.token);
-                        localStorage.setItem('userData', JSON.stringify(result.data.user));
-
-                        alert('Inscription réussie !\n\nVous allez être redirigé vers votre tableau de bord.');
-
-                        // Rediriger vers le dashboard approprié
-                        setTimeout(() => {
-                            if (userType === 'expediteur') {
-                                window.location.href = 'dashexpediteur.html';
-                            } else {
-                                window.location.href = 'dashgp.html';
-                            }
-                        }, 1500);
-                    } else {
-                        // Afficher l'erreur
-                        alert('Erreur d\'inscription:\n\n' + (result.message || 'Une erreur est survenue'));
-                        submitButton.textContent = originalText;
-                        submitButton.disabled = false;
-                    }
-                } catch (error) {
-                    console.error('Erreur:', error);
-                    alert('Erreur d\'inscription:\n\nImpossible de se connecter au serveur. Assurez-vous que le backend est démarré.');
-
-                    // Réactiver le bouton
-                    const submitButton = document.getElementById('signupBtn');
-                    submitButton.textContent = 'Créer mon compte';
-                    submitButton.disabled = false;
-                }
+                // Rediriger vers la page de connexion après inscription
+                setTimeout(() => {
+                    window.location.href = 'connexion.html';
+                }, 1500);
             }
         });
 
