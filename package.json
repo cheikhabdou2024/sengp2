@@ -14,7 +14,8 @@
     "cap:ios": "npm run cap:sync && npx cap open ios",
     "start": "cd backend && npm start",
     "dev:backend": "cd backend && npm run dev:simple",
-    "dev:frontend": "npm run ionic:serve"
+    "dev:frontend": "npm run ionic:serve",
+    "heroku-postbuild": "cd backend && npm install && npm run build"
   },
   "dependencies": {
     "@capacitor/android": "^6.1.2",
