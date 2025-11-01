@@ -49,3 +49,16 @@ uploads/
 
 # Redis dumps
 dump.rdb
+
+# Elastic Beanstalk
+.elasticbeanstalk/
+env.yaml
+!env.yaml.example
+
+# Deployment configs
+awscliv2.zip
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

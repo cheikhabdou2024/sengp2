@@ -5,17 +5,32 @@ dotenv.config();
 
 let poolConfig: PoolConfig;
 
-// Use DATABASE_URL if available (production), otherwise use individual variables (development)
-if (process.env.DATABASE_URL) {
+// Check for AWS Elastic Beanstalk RDS environment variables first
+if (process.env.RDS_HOSTNAME) {
+  poolConfig = {
+    host: process.env.RDS_HOSTNAME,
+    port: parseInt(process.env.RDS_PORT || '5432'),
+    database: process.env.RDS_DB_NAME || 'ebdb',
+    user: process.env.RDS_USERNAME,
+    password: process.env.RDS_PASSWORD,
+    max: 20,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 10000,
+    ssl: {
+      rejectUnauthorized: false
+    }
+  };
+} else if (process.env.DATABASE_URL) {
+  // Use DATABASE_URL if available (production), otherwise use individual variables (development)
   poolConfig = {
     connectionString: process.env.DATABASE_URL,
     max: 20,
     idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000,
+    connectionTimeoutMillis: 10000,
   };
 
-  // Add SSL for production databases
-  if (process.env.NODE_ENV === 'production') {
+  // Add SSL for production databases only if not explicitly disabled
+  if (process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL.includes('sslmode=disable')) {
     poolConfig.ssl = {
       rejectUnauthorized: false
     };
