@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEN GP - Dashboard Gros Porteur</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .mobile-frame {
+            width: 100%;
+            max-width: 375px;
+            height: 667px;
+            background: linear-gradient(135deg, rgba(15, 12, 41, 0.95) 0%, rgba(48, 43, 99, 0.95) 50%, rgba(36, 36, 62, 0.95) 100%);
+            border-radius: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .status-bar {
+            height: 44px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .time { color: #fff; }
+        .indicators {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        .signal, .wifi, .battery {
+            width: 18px;
+            height: 12px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 2px;
+        }
+
+        .content {
+            height: calc(100% - 44px - 85px);
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+
+        .content::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        /* Header Section */
+        .header {
+            padding: 20px 20px 15px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .greeting {
+            flex: 1;
+        }
+
+        .greeting h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .greeting p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .profile-avatar {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        /* Rating Badge */
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 165, 0, 0.2) 100%);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 12px;
+        }
+
+        .rating-badge .star {
+            font-size: 16px;
+        }
+
+        .rating-badge .rating {
+            font-size: 14px;
+            font-weight: 700;
+            color: #FFD700;
+        }
+
+        .rating-badge .reviews {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 20px 20px 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card.primary {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 165, 0, 0.15) 100%);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+        }
+
+        .stat-icon {
+            font-size: 18px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .stat-change {
+            font-size: 11px;
+            color: #4CAF50;
+            font-weight: 600;
+        }
+
+        .stat-change.info {
+            color: #4ECDC4;
+        }
+
+        /* Full Width Stat Card */
+        .stat-card-full {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.15) 0%, rgba(78, 205, 196, 0.15) 100%);
+            border-color: rgba(76, 175, 80, 0.3);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            padding: 15px 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .view-all {
+            font-size: 13px;
+            color: #FFE66D;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .view-all:hover {
+            color: #FFD700;
+        }
+
+        .action-button {
+            width: 100%;
+            padding: 18px 20px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border: none;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+            margin-bottom: 15px;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(255, 215, 0, 0.5);
+        }
+
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .action-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .action-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 2px;
+        }
+
+        .action-subtitle {
+            font-size: 12px;
+            color: rgba(26, 26, 46, 0.7);
+        }
+
+        .action-arrow {
+            font-size: 20px;
+            color: #1a1a2e;
+        }
+
+        /* Action Button Variants */
+        .action-button-primary {
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+            box-shadow: 0 8px 20px rgba(78, 205, 196, 0.4);
+        }
+
+        .action-button-primary:hover {
+            box-shadow: 0 12px 28px rgba(78, 205, 196, 0.5);
+        }
+
+        .action-button-primary .action-title,
+        .action-button-primary .action-subtitle,
+        .action-button-primary .action-arrow {
+            color: #ffffff;
+        }
+
+        .action-button-secondary {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: none;
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .action-button-secondary .action-title {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .action-button-secondary .action-subtitle {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .action-button-secondary .action-arrow {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .action-button-secondary:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Info Section */
+        .info-section {
+            padding: 15px 20px 20px;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.1) 0%, rgba(68, 160, 141, 0.1) 100%);
+            border: 1px solid rgba(78, 205, 196, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            gap: 16px;
+        }
+
+        .info-icon {
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+
+        .info-content h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .info-content ol {
+            margin-left: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .info-content ol li {
+            margin-bottom: 8px;
+        }
+
+        /* Mission Cards */
+        .missions-section {
+            padding: 15px 20px;
+        }
+
+        .mission-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .mission-card:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .mission-card.new {
+            border-color: rgba(255, 215, 0, 0.4);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.12) 0%, rgba(255, 165, 0, 0.08) 100%);
+        }
+
+        .mission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .mission-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #FFD700;
+        }
+
+        .mission-status {
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-new {
+            background: rgba(255, 215, 0, 0.2);
+            color: #FFD700;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            animation: pulse-new 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-new {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .status-active {
+            background: rgba(78, 205, 196, 0.2);
+            color: #4ECDC4;
+            border: 1px solid rgba(78, 205, 196, 0.3);
+        }
+
+        .status-completed {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .mission-route {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .route-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        .route-location .flag {
+            font-size: 24px;
+        }
+
+        .route-arrow {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .mission-details {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 10px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .mission-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mission-date {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .mission-client {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .client-avatar {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65px;
+            background: linear-gradient(180deg, rgba(15, 12, 41, 0.95) 0%, rgba(26, 22, 48, 0.98) 100%);
+            backdrop-filter: blur(30px);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            padding: 6px 10px;
+            border-radius: 12px;
+            flex: 1;
+            max-width: 70px;
+            position: relative;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 165, 0, 0.15) 50%, rgba(78, 205, 196, 0.1) 100%);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 8px 24px rgba(255, 215, 0, 0.25);
+            transform: translateY(-6px);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            filter: grayscale(0.8) brightness(0.7);
+            transition: all 0.4s ease;
+        }
+
+        .nav-item.active .nav-icon {
+            filter: grayscale(0) brightness(1.2);
+            transform: scale(1.1);
+        }
+
+        .nav-label {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .nav-item.active .nav-label {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #4ECDC4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .nav-badge {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            min-width: 18px;
+            height: 18px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF4757 100%);
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 800;
+            color: white;
+            padding: 0 5px;
+            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.6);
+        }
+
+        .nav-badge.new {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            box-shadow: 0 3px 10px rgba(255, 215, 0, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-frame">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span class="time">9:41</span>
+            <div class="indicators">
+                <div class="signal"></div>
+                <div class="wifi"></div>
+                <div class="battery"></div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-top">
+                    <div class="greeting">
+                        <h1>Bonjour, GP 👋</h1>
+                        <p>Prêt pour une nouvelle mission ?</p>
+                    </div>
+                    <div class="profile-avatar" onclick="openProfile()">
+                        ✈️
+                    </div>
+                </div>
+
+                <!-- Rating Badge -->
+                <div class="rating-badge">
+                    <span class="star">⭐</span>
+                    <span class="rating" id="gpRating">--</span>
+                    <span class="reviews" id="gpReviews">(-- avis)</span>
+                </div>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-card primary">
+                        <div class="stat-header">
+                            <span class="stat-label">Missions actives</span>
+                            <span class="stat-icon">📦</span>
+                        </div>
+                        <div class="stat-value">--</div>
+                        <div class="stat-change">En cours</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">Missions terminées</span>
+                            <span class="stat-icon">✅</span>
+                        </div>
+                        <div class="stat-value">--</div>
+                        <div class="stat-change">--</div>
+                    </div>
+
+                    <div class="stat-card stat-card-full">
+                        <div class="stat-header">
+                            <span class="stat-label">Gains totaux</span>
+                            <span class="stat-icon">💰</span>
+                        </div>
+                        <div class="stat-value">-- FCFA</div>
+                        <div class="stat-change info">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <div class="section-header">
+                    <h2 class="section-title">Actions rapides</h2>
+                </div>
+
+                <!-- Créer un trajet Button -->
+                <button class="action-button action-button-primary" onclick="createTrip()">
+                    <div class="action-icon">✈️</div>
+                    <div class="action-text">
+                        <div class="action-title">Créer un trajet</div>
+                        <div class="action-subtitle">Ajoutez votre prochain voyage</div>
+                    </div>
+                    <div class="action-arrow">→</div>
+                </button>
+
+                <!-- Rechercher missions Button (disabled until trip created) -->
+                <button class="action-button action-button-secondary" onclick="searchMissions()" id="searchMissionsBtn">
+                    <div class="action-icon">🔍</div>
+                    <div class="action-text">
+                        <div class="action-title">Rechercher des missions</div>
+                        <div class="action-subtitle">Créez un trajet d'abord</div>
+                    </div>
+                    <div class="action-arrow">→</div>
+                </button>
+            </div>
+
+            <!-- Info Message -->
+            <div class="info-section">
+                <div class="info-card">
+                    <div class="info-icon">ℹ️</div>
+                    <div class="info-content">
+                        <h3>Comment ça marche ?</h3>
+                        <ol>
+                            <li>Créez un trajet en ajoutant votre billet d'avion et les détails de votre voyage</li>
+                            <li>Notre système vous proposera automatiquement des missions correspondant à votre trajet</li>
+                            <li>Acceptez les missions qui vous conviennent et gagnez de l'argent en voyageant</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="navigateTo('home')" tabindex="0" role="button" aria-label="Accueil">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-label">Accueil</div>
+            </div>
+
+            <div class="nav-item" onclick="navigateTo('missions')" tabindex="0" role="button" aria-label="Missions">
+                <div class="nav-icon">🔍</div>
+                <div class="nav-label">Missions</div>
+                <div class="nav-badge new">5</div>
+            </div>
+
+            <div class="nav-item" onclick="navigateTo('trips')" tabindex="0" role="button" aria-label="Mes trajets">
+                <div class="nav-icon">✈️</div>
+                <div class="nav-label">Trajets</div>
+                <div class="nav-badge">2</div>
+            </div>
+
+            <div class="nav-item" onclick="navigateTo('claims')" tabindex="0" role="button" aria-label="Réclamations">
+                <div class="nav-icon">📝</div>
+                <div class="nav-label">Réclamations</div>
+            </div>
+
+            <div class="nav-item" onclick="navigateTo('profile')" tabindex="0" role="button" aria-label="Profil">
+                <div class="nav-icon">👤</div>
+                <div class="nav-label">Profil</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:5000/api/v1';
+        let currentUser = null;
+        let authToken = null;
+
+        // Check authentication on page load
+        window.addEventListener('DOMContentLoaded', async () => {
+            await checkAuthentication();
+            await loadDashboardData();
+        });
+
+        async function checkAuthentication() {
+            authToken = localStorage.getItem('authToken');
+            const userData = localStorage.getItem('userData');
+
+            if (!authToken || !userData) {
+                alert('Vous devez vous connecter pour accéder au dashboard');
+                window.location.href = 'connexion.html';
+                return;
+            }
+
+            try {
+                currentUser = JSON.parse(userData);
+
+                // Verify user is GP
+                if (currentUser.user_type !== 'gp') {
+                    alert('Accès non autorisé. Ce dashboard est réservé aux GP.');
+                    window.location.href = 'connexion.html';
+                    return;
+                }
+
+                // Update header with user info
+                updateHeader();
+            } catch (error) {
+                console.error('Error parsing user data:', error);
+                window.location.href = 'connexion.html';
+            }
+        }
+
+        function updateHeader() {
+            const greetingName = document.querySelector('.greeting h1');
+            const firstName = currentUser.first_name || 'GP';
+            greetingName.textContent = `Bonjour, ${firstName} 👋`;
+        }
+
+        async function loadDashboardData() {
+            try {
+                // Show loading state
+                console.log('Loading dashboard data...');
+
+                // Load all data in parallel
+                await Promise.all([
+                    loadStats(),
+                    loadNewMissions(),
+                    loadMyMissions()
+                ]);
+
+                console.log('Dashboard data loaded successfully');
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+            }
+        }
+
+        async function loadStats() {
+            try {
+                // Get GP's missions
+                const response = await fetch(`${API_BASE_URL}/missions/my-missions?limit=1000`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load stats');
+                }
+
+                const result = await response.json();
+                const missions = result.data || [];
+
+                // Calculate statistics
+                const activeMissions = missions.filter(m =>
+                    ['accepted', 'in_transit', 'picked_up'].includes(m.status)
+                ).length;
+
+                const completedMissions = missions.filter(m =>
+                    m.status === 'delivered'
+                ).length;
+
+                const totalEarnings = missions
+                    .filter(m => m.status === 'delivered')
+                    .reduce((sum, m) => sum + (parseFloat(m.price) || 0), 0);
+
+                // Update UI
+                document.querySelectorAll('.stat-value')[0].textContent = activeMissions;
+                document.querySelectorAll('.stat-value')[1].textContent = completedMissions;
+                document.querySelectorAll('.stat-value')[2].textContent =
+                    `${totalEarnings.toLocaleString('fr-FR')} FCFA`;
+
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        async function loadNewMissions() {
+            try {
+                // Get pending missions (not yet accepted)
+                const response = await fetch(`${API_BASE_URL}/missions?status=pending&limit=5`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load new missions');
+                }
+
+                const result = await response.json();
+                const missions = result.data || [];
+
+                // Update new missions count in action button
+                const actionSubtitle = document.querySelector('.action-subtitle');
+                actionSubtitle.textContent = `${missions.length} nouvelles missions disponibles`;
+
+                // Update badge
+                const missionsBadge = document.querySelector('.nav-item[onclick*="missions"] .nav-badge');
+                if (missionsBadge) {
+                    missionsBadge.textContent = missions.length;
+                }
+
+                // Display new missions
+                displayNewMissions(missions.slice(0, 2));
+
+            } catch (error) {
+                console.error('Error loading new missions:', error);
+            }
+        }
+
+        async function loadMyMissions() {
+            try {
+                // Get GP's accepted missions
+                const response = await fetch(`${API_BASE_URL}/missions/my-missions?limit=10`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load my missions');
+                }
+
+                const result = await response.json();
+                const missions = result.data || [];
+
+                // Filter active missions
+                const activeMissions = missions.filter(m =>
+                    ['accepted', 'in_transit', 'picked_up'].includes(m.status)
+                );
+
+                // Update badge
+                const tripsBadge = document.querySelector('.nav-item[onclick*="trips"] .nav-badge');
+                if (tripsBadge) {
+                    tripsBadge.textContent = activeMissions.length;
+                }
+
+                // Display my missions
+                displayMyMissions(missions.slice(0, 2));
+
+            } catch (error) {
+                console.error('Error loading my missions:', error);
+            }
+        }
+
+        function displayNewMissions(missions) {
+            const cardsContainer = document.getElementById('newMissionsContainer');
+
+            if (!cardsContainer) return;
+
+            // Clear container
+            cardsContainer.innerHTML = '';
+
+            if (missions.length === 0) {
+                cardsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px 20px; color: rgba(255,255,255,0.5);">
+                        <div style="font-size: 48px; margin-bottom: 16px;">📭</div>
+                        <p>Aucune nouvelle mission pour le moment</p>
+                    </div>
+                `;
+                return;
+            }
+
+            missions.forEach(mission => {
+                const card = createMissionCard(mission, 'new');
+                cardsContainer.appendChild(card);
+            });
+        }
+
+        function displayMyMissions(missions) {
+            const cardsContainer = document.getElementById('myMissionsContainer');
+
+            if (!cardsContainer) return;
+
+            // Clear container
+            cardsContainer.innerHTML = '';
+
+            if (missions.length === 0) {
+                cardsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px 20px; color: rgba(255,255,255,0.5);">
+                        <div style="font-size: 48px; margin-bottom: 16px;">📦</div>
+                        <p>Vous n'avez pas encore accepté de mission</p>
+                    </div>
+                `;
+                return;
+            }
+
+            missions.forEach(mission => {
+                const statusType = getStatusType(mission.status);
+                const card = createMissionCard(mission, statusType);
+                cardsContainer.appendChild(card);
+            });
+        }
+
+        function createMissionCard(mission, statusType) {
+            const card = document.createElement('div');
+            card.className = statusType === 'new' ? 'mission-card new' : 'mission-card';
+            card.onclick = () => viewMissionDetails(mission.id);
+
+            const statusInfo = getStatusInfo(mission.status);
+            const price = parseFloat(mission.price || 0).toLocaleString('fr-FR');
+
+            card.innerHTML = `
+                <div class="mission-header">
+                    <span class="mission-price">${price} FCFA</span>
+                    <span class="mission-status ${statusInfo.class}">${statusInfo.label}</span>
+                </div>
+                <div class="mission-route">
+                    <div class="route-location">
+                        <span class="flag">${getCountryFlag(mission.departure_country)}</span>
+                        <span>${mission.departure_city}</span>
+                    </div>
+                    <span class="route-arrow">→</span>
+                    <div class="route-location">
+                        <span class="flag">${getCountryFlag(mission.arrival_country)}</span>
+                        <span>${mission.arrival_city}</span>
+                    </div>
+                </div>
+                <div class="mission-details">
+                    <div class="detail-item">
+                        <span>📦</span>
+                        <span>${mission.weight || 'N/A'} kg</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>📏</span>
+                        <span>${mission.dimensions || 'N/A'}</span>
+                    </div>
+                </div>
+                <div class="mission-footer">
+                    <span class="mission-date">${formatDate(mission.departure_date)}</span>
+                    <div class="mission-client">
+                        <div class="client-avatar">${getInitials(mission.expediteur_name)}</div>
+                        <span>${mission.expediteur_name || 'Client'}</span>
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        function getStatusInfo(status) {
+            const statusMap = {
+                'pending': { label: '🔥 Nouveau', class: 'status-new' },
+                'accepted': { label: 'En cours', class: 'status-active' },
+                'in_transit': { label: 'En transit', class: 'status-active' },
+                'picked_up': { label: 'Récupéré', class: 'status-active' },
+                'delivered': { label: 'Terminée', class: 'status-completed' },
+                'cancelled': { label: 'Annulée', class: 'status-cancelled' }
+            };
+            return statusMap[status] || { label: status, class: '' };
+        }
+
+        function getStatusType(status) {
+            if (status === 'pending') return 'new';
+            if (status === 'delivered') return 'completed';
+            return 'active';
+        }
+
+        function getCountryFlag(country) {
+            const flags = {
+                'Sénégal': '🇸🇳',
+                'France': '🇫🇷',
+                'Espagne': '🇪🇸',
+                'Italie': '🇮🇹',
+                'USA': '🇺🇸',
+                'Canada': '🇨🇦'
+            };
+            return flags[country] || '🌍';
+        }
+
+        function getInitials(name) {
+            if (!name) return '??';
+            const parts = name.split(' ');
+            if (parts.length >= 2) {
+                return parts[0][0] + parts[1][0];
+            }
+            return name.substring(0, 2).toUpperCase();
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'Date non définie';
+            const date = new Date(dateString);
+            const options = { day: 'numeric', month: 'short', year: 'numeric' };
+            return `Départ: ${date.toLocaleDateString('fr-FR', options)}`;
+        }
+
+        function openProfile() {
+            window.location.href = 'profilegp.html';
+        }
+
+        function createTrip() {
+            // Redirect to trip creation page
+            window.location.href = 'creetrajet.html';
+        }
+
+        function searchMissions() {
+            // Check if user has created a trip first
+            // For now, show alert - will be replaced with actual check
+            alert('Veuillez créer un trajet d\'abord pour voir les missions disponibles.');
+            // window.location.href = 'missions.html';
+        }
+
+        function viewAllMissions() {
+            event.preventDefault();
+            window.location.href = 'missions.html';
+        }
+
+        function viewMyMissions() {
+            event.preventDefault();
+            window.location.href = 'trajets.html';
+        }
+
+        function viewMissionDetails(missionId) {
+            alert(`Détails de la mission\n\nID: ${missionId}\n\nVous pouvez accepter cette mission depuis la page Missions.\n\nFonctionnalités à venir:\n- Voir tous les détails\n- Accepter/Refuser la mission\n- Communiquer avec l'expéditeur`);
+        }
+
+        function navigateTo(section) {
+            // Remove active class from all items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Add active class to clicked item
+            event.currentTarget.classList.add('active');
+
+            const pages = {
+                'home': 'dashgp.html',
+                'missions': 'missions.html',
+                'trips': 'trajets.html',
+                'claims': 'reclamationgp.html',
+                'profile': 'profilegp.html'
+            };
+
+            if (pages[section]) {
+                window.location.href = pages[section];
+            }
+        }
+
+        // Keyboard navigation support
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+
+        // Animation on load
+        window.addEventListener('load', () => {
+            document.querySelector('.content').style.opacity = '0';
+
+            setTimeout(() => {
+                document.querySelector('.content').style.transition = 'opacity 0.8s ease';
+                document.querySelector('.content').style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEN GP - Mes Trajets</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .mobile-frame {
+            width: 100%;
+            max-width: 375px;
+            height: 667px;
+            background: linear-gradient(135deg, rgba(15, 12, 41, 0.95) 0%, rgba(48, 43, 99, 0.95) 50%, rgba(36, 36, 62, 0.95) 100%);
+            border-radius: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .status-bar {
+            height: 44px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .time { color: #fff; }
+        .indicators {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        .signal, .wifi, .battery {
+            width: 18px;
+            height: 12px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 2px;
+        }
+
+        /* Header */
+        .header {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(-3px);
+        }
+
+        .header-title {
+            flex: 1;
+        }
+
+        .header-title h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .header-title p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .add-trip-btn {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border: none;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+        }
+
+        .add-trip-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Content */
+        .content {
+            height: calc(100% - 44px - 85px - 73px);
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .content::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px;
+            border-radius: 16px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px 16px;
+            background: transparent;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Trip Cards */
+        .trip-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .trip-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .trip-card.active {
+            border-color: rgba(78, 205, 196, 0.4);
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.12) 0%, rgba(76, 175, 80, 0.08) 100%);
+        }
+
+        .trip-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .trip-id {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .trip-status {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: rgba(78, 205, 196, 0.2);
+            color: #4ECDC4;
+            border: 1px solid rgba(78, 205, 196, 0.3);
+        }
+
+        .status-upcoming {
+            background: rgba(255, 230, 109, 0.2);
+            color: #FFE66D;
+            border: 1px solid rgba(255, 230, 109, 0.3);
+        }
+
+        .status-completed {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .trip-route {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .route-location {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .route-flag {
+            font-size: 32px;
+        }
+
+        .route-text {
+            flex: 1;
+        }
+
+        .route-city {
+            font-size: 16px;
+            color: #ffffff;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .route-country {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .route-arrow {
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Trip Details */
+        .trip-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .detail-box {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 12px;
+        }
+
+        .detail-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* Packages Section */
+        .packages-section {
+            margin-bottom: 16px;
+        }
+
+        .section-title-small {
+            font-size: 12px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .package-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .package-info {
+            flex: 1;
+        }
+
+        .package-client {
+            font-size: 13px;
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .package-details {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .package-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: #FFD700;
+        }
+
+        /* Earnings Summary */
+        .earnings-summary {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 165, 0, 0.12) 100%);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .earnings-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+        }
+
+        .earnings-amount {
+            font-size: 20px;
+            font-weight: 700;
+            color: #FFD700;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+            color: #ffffff;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(78, 205, 196, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(78, 205, 196, 0.5);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65px;
+            background: linear-gradient(180deg, rgba(15, 12, 41, 0.95) 0%, rgba(26, 22, 48, 0.98) 100%);
+            backdrop-filter: blur(30px);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            padding: 6px 10px;
+            border-radius: 12px;
+            flex: 1;
+            max-width: 70px;
+            position: relative;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 165, 0, 0.15) 50%, rgba(78, 205, 196, 0.1) 100%);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 8px 24px rgba(255, 215, 0, 0.25);
+            transform: translateY(-6px);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            filter: grayscale(0.8) brightness(0.7);
+            transition: all 0.4s ease;
+        }
+
+        .nav-item.active .nav-icon {
+            filter: grayscale(0) brightness(1.2);
+            transform: scale(1.1);
+        }
+
+        .nav-label {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .nav-item.active .nav-label {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #4ECDC4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .nav-badge {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            min-width: 18px;
+            height: 18px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 800;
+            color: white;
+            padding: 0 5px;
+            box-shadow: 0 3px 10px rgba(255, 215, 0, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-frame">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span class="time">9:41</span>
+            <div class="indicators">
+                <div class="signal"></div>
+                <div class="wifi"></div>
+                <div class="battery"></div>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <div class="header-title">
+                <h1>Mes Trajets</h1>
+                <p>Gérez vos missions</p>
+            </div>
+            <button class="add-trip-btn" onclick="addTrip()">+</button>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('active')">En cours (2)</button>
+                <button class="tab" onclick="switchTab('upcoming')">À venir (1)</button>
+                <button class="tab" onclick="switchTab('completed')">Terminés</button>
+            </div>
+
+            <!-- Active Trips -->
+            <div id="activeTrips">
+                <!-- Trip Card 1 - Active -->
+                <div class="trip-card active">
+                    <div class="trip-header">
+                        <span class="trip-id">TRJ-2025-001</span>
+                        <span class="trip-status status-active">✈️ En vol</span>
+                    </div>
+
+                    <div class="trip-route">
+                        <div class="route-location">
+                            <span class="route-flag">🇸🇳</span>
+                            <div class="route-text">
+                                <div class="route-city">Dakar</div>
+                                <div class="route-country">Sénégal</div>
+                            </div>
+                        </div>
+                        <span class="route-arrow">→</span>
+                        <div class="route-location">
+                            <span class="route-flag">🇫🇷</span>
+                            <div class="route-text">
+                                <div class="route-city">Paris</div>
+                                <div class="route-country">France</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="trip-details">
+                        <div class="detail-box">
+                            <div class="detail-label">Départ</div>
+                            <div class="detail-value">19 Oct, 02:15</div>
+                        </div>
+                        <div class="detail-box">
+                            <div class="detail-label">Arrivée prévue</div>
+                            <div class="detail-value">21 Oct, 08:30</div>
+                        </div>
+                    </div>
+
+                    <div class="packages-section">
+                        <div class="section-title-small">Colis transportés (2)</div>
+                        <div class="package-item">
+                            <div class="package-info">
+                                <div class="package-client">Aissatou S.</div>
+                                <div class="package-details">4 kg • 35x30x20 cm</div>
+                            </div>
+                            <div class="package-price">55,000 FCFA</div>
+                        </div>
+                        <div class="package-item">
+                            <div class="package-info">
+                                <div class="package-client">Moussa D.</div>
+                                <div class="package-details">3.5 kg • 30x25x15 cm</div>
+                            </div>
+                            <div class="package-price">65,000 FCFA</div>
+                        </div>
+                    </div>
+
+                    <div class="earnings-summary">
+                        <span class="earnings-label">Gains du trajet</span>
+                        <span class="earnings-amount">120,000 FCFA</span>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="viewTripDetails('TRJ-2025-001')">Détails</button>
+                        <button class="btn btn-primary" onclick="updateStatus('TRJ-2025-001')">Mettre à jour</button>
+                    </div>
+                </div>
+
+                <!-- Trip Card 2 - Active -->
+                <div class="trip-card">
+                    <div class="trip-header">
+                        <span class="trip-id">TRJ-2025-002</span>
+                        <span class="trip-status status-upcoming">📦 Récupération</span>
+                    </div>
+
+                    <div class="trip-route">
+                        <div class="route-location">
+                            <span class="route-flag">🇸🇳</span>
+                            <div class="route-text">
+                                <div class="route-city">Dakar</div>
+                                <div class="route-country">Sénégal</div>
+                            </div>
+                        </div>
+                        <span class="route-arrow">→</span>
+                        <div class="route-location">
+                            <span class="route-flag">🇪🇸</span>
+                            <div class="route-text">
+                                <div class="route-city">Madrid</div>
+                                <div class="route-country">Espagne</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="trip-details">
+                        <div class="detail-box">
+                            <div class="detail-label">Départ prévu</div>
+                            <div class="detail-value">28 Oct, 14:00</div>
+                        </div>
+                        <div class="detail-box">
+                            <div class="detail-label">Arrivée prévue</div>
+                            <div class="detail-value">29 Oct, 10:45</div>
+                        </div>
+                    </div>
+
+                    <div class="packages-section">
+                        <div class="section-title-small">Colis à récupérer (1)</div>
+                        <div class="package-item">
+                            <div class="package-info">
+                                <div class="package-client">Fatou S.</div>
+                                <div class="package-details">2 kg • 25x20x10 cm</div>
+                            </div>
+                            <div class="package-price">45,000 FCFA</div>
+                        </div>
+                    </div>
+
+                    <div class="earnings-summary">
+                        <span class="earnings-label">Gains du trajet</span>
+                        <span class="earnings-amount">45,000 FCFA</span>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="viewTripDetails('TRJ-2025-002')">Détails</button>
+                        <button class="btn btn-primary" onclick="contactClient('TRJ-2025-002')">Contacter</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Trips (hidden by default) -->
+            <div id="upcomingTrips" style="display: none;">
+                <div class="trip-card">
+                    <div class="trip-header">
+                        <span class="trip-id">TRJ-2025-003</span>
+                        <span class="trip-status status-upcoming">🗓️ Planifié</span>
+                    </div>
+
+                    <div class="trip-route">
+                        <div class="route-location">
+                            <span class="route-flag">🇸🇳</span>
+                            <div class="route-text">
+                                <div class="route-city">Dakar</div>
+                                <div class="route-country">Sénégal</div>
+                            </div>
+                        </div>
+                        <span class="route-arrow">→</span>
+                        <div class="route-location">
+                            <span class="route-flag">🇺🇸</span>
+                            <div class="route-text">
+                                <div class="route-city">New York</div>
+                                <div class="route-country">États-Unis</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="trip-details">
+                        <div class="detail-box">
+                            <div class="detail-label">Départ prévu</div>
+                            <div class="detail-value">05 Nov, 18:30</div>
+                        </div>
+                        <div class="detail-box">
+                            <div class="detail-label">Arrivée prévue</div>
+                            <div class="detail-value">06 Nov, 06:15</div>
+                        </div>
+                    </div>
+
+                    <div class="packages-section">
+                        <div class="section-title-small">Emplacement disponible</div>
+                        <div style="text-align: center; padding: 20px; color: rgba(255, 255, 255, 0.6); font-size: 13px;">
+                            Vous pouvez accepter jusqu'à 3 colis pour ce trajet
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="viewTripDetails('TRJ-2025-003')">Détails</button>
+                        <button class="btn btn-primary" onclick="searchPackages('TRJ-2025-003')">Chercher colis</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completed Trips (hidden by default) -->
+            <div id="completedTrips" style="display: none;">
+                <div class="trip-card">
+                    <div class="trip-header">
+                        <span class="trip-id">TRJ-2024-095</span>
+                        <span class="trip-status status-completed">✓ Terminé</span>
+                    </div>
+
+                    <div class="trip-route">
+                        <div class="route-location">
+                            <span class="route-flag">🇸🇳</span>
+                            <div class="route-text">
+                                <div class="route-city">Dakar</div>
+                                <div class="route-country">Sénégal</div>
+                            </div>
+                        </div>
+                        <span class="route-arrow">→</span>
+                        <div class="route-location">
+                            <span class="route-flag">🇺🇸</span>
+                            <div class="route-text">
+                                <div class="route-city">New York</div>
+                                <div class="route-country">États-Unis</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="trip-details">
+                        <div class="detail-box">
+                            <div class="detail-label">Départ</div>
+                            <div class="detail-value">10 Oct, 16:00</div>
+                        </div>
+                        <div class="detail-box">
+                            <div class="detail-label">Arrivée</div>
+                            <div class="detail-value">15 Oct, 09:30</div>
+                        </div>
+                    </div>
+
+                    <div class="packages-section">
+                        <div class="section-title-small">Colis livrés (1)</div>
+                        <div class="package-item">
+                            <div class="package-info">
+                                <div class="package-client">Ibrahima B.</div>
+                                <div class="package-details">3 kg • 28x22x12 cm</div>
+                            </div>
+                            <div class="package-price">50,000 FCFA</div>
+                        </div>
+                    </div>
+
+                    <div class="earnings-summary">
+                        <span class="earnings-label">Gains reçus ✓</span>
+                        <span class="earnings-amount">50,000 FCFA</span>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="viewTripDetails('TRJ-2024-095')">Détails</button>
+                        <button class="btn btn-primary" onclick="viewReceipt('TRJ-2024-095')">Voir reçu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item" onclick="navigateTo('home')">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-label">Accueil</div>
+            </div>
+
+            <div class="nav-item" onclick="navigateTo('missions')">
+                <div class="nav-icon">🔍</div>
+                <div class="nav-label">Missions</div>
+                <div class="nav-badge">5</div>
+            </div>
+
+            <div class="nav-item active" onclick="navigateTo('trips')">
+                <div class="nav-icon">✈️</div>
+                <div class="nav-label">Trajets</div>
+                <div class="nav-badge">2</div>
+            </div>
+
+            <div class="nav-item" onclick="navigateTo('earnings')">
+                <div class="nav-icon">💰</div>
+                <div class="nav-label">Gains</div>
+            </div>
+
+            <div class="nav-item" onclick="navigateTo('profile')">
+                <div class="nav-icon">👤</div>
+                <div class="nav-label">Profil</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = 'dashgp.html';
+        }
+
+        function addTrip() {
+            alert('Ajouter un nouveau trajet\n\nDéclarez votre prochain voyage pour recevoir des propositions de colis.\n\n- Ville de départ\n- Ville d\'arrivée\n- Date et heure de départ\n- Date et heure d\'arrivée\n- Capacité disponible');
+        }
+
+        function switchTab(tab) {
+            // Update tab buttons
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Show/hide trip lists
+            document.getElementById('activeTrips').style.display = 'none';
+            document.getElementById('upcomingTrips').style.display = 'none';
+            document.getElementById('completedTrips').style.display = 'none';
+
+            if (tab === 'active') {
+                document.getElementById('activeTrips').style.display = 'block';
+            } else if (tab === 'upcoming') {
+                document.getElementById('upcomingTrips').style.display = 'block';
+            } else if (tab === 'completed') {
+                document.getElementById('completedTrips').style.display = 'block';
+            }
+        }
+
+        function viewTripDetails(tripId) {
+            alert(`Détails du trajet ${tripId}\n\nInformations complètes:\n- Itinéraire complet\n- Informations de vol\n- Liste des colis\n- Coordonnées des clients\n- Points de récupération/livraison\n- Historique du trajet`);
+        }
+
+        function updateStatus(tripId) {
+            alert(`Mettre à jour le statut - ${tripId}\n\nStatuts disponibles:\n- Colis récupéré\n- En transit\n- Douane\n- En livraison\n- Livré`);
+        }
+
+        function contactClient(tripId) {
+            alert('Contacter le client\n\nOptions:\n- Appel téléphonique\n- Message SMS\n- Chat dans l\'application\n- Email');
+        }
+
+        function searchPackages(tripId) {
+            window.location.href = 'missions.html';
+        }
+
+        function viewReceipt(tripId) {
+            alert(`Reçu du trajet ${tripId}\n\nDétails de paiement:\n- Date de livraison\n- Montant reçu\n- Commission SEN GP\n- Montant net\n- Méthode de paiement\n\nOption de téléchargement PDF disponible`);
+        }
+
+        function navigateTo(section) {
+            const pages = {
+                'home': 'dashgp.html',
+                'missions': 'missions.html',
+                'trips': 'trajets.html',
+                'earnings': 'gains.html',
+                'profile': 'profilegp.html'
+            };
+
+            if (pages[section]) {
+                window.location.href = pages[section];
+            }
+        }
+    </script>
+</body>
+</html>

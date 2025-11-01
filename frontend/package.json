@@ -1,0 +1,37 @@
+{
+  "name": "sengp",
+  "version": "1.0.0",
+  "description": "SEN GP - Plateforme de gestion des colis au Sénégal",
+  "author": "SEN GP Team",
+  "license": "MIT",
+  "scripts": {
+    "build": "mkdir -p www && cp *.html www/ && cp -r im www/ 2>/dev/null || true",
+    "build:all": "npm run build && cd backend && npm install && npm run build",
+    "ionic:build": "npm run build",
+    "ionic:serve": "npx http-server www -p 8100",
+    "cap:sync": "npm run build && npx cap sync",
+    "cap:android": "npm run cap:sync && npx cap open android",
+    "cap:ios": "npm run cap:sync && npx cap open ios",
+    "start": "cd backend && npm start",
+    "dev:backend": "cd backend && npm run dev:simple",
+    "dev:frontend": "npm run ionic:serve",
+    "heroku-postbuild": "cd backend && npm install && npm run build"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
+    "@capacitor/ios": "^6.1.2",
+    "@capacitor/app": "^6.0.1",
+    "@capacitor/haptics": "^6.0.1",
+    "@capacitor/keyboard": "^6.0.2",
+    "@capacitor/status-bar": "^6.0.1",
+    "@capacitor/splash-screen": "^6.0.2",
+    "@capacitor/camera": "^6.0.2",
+    "@capacitor/geolocation": "^6.0.1",
+    "@capacitor/push-notifications": "^6.0.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.2",
+    "http-server": "^14.1.1"
+  }
+}

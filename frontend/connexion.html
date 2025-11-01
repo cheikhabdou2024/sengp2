@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEN GP - Connexion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .mobile-frame {
+            width: 100%;
+            max-width: 375px;
+            height: 667px;
+            background: linear-gradient(135deg, rgba(15, 12, 41, 0.95) 0%, rgba(48, 43, 99, 0.95) 50%, rgba(36, 36, 62, 0.95) 100%);
+            border-radius: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .status-bar {
+            height: 44px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .time { color: #fff; }
+        .indicators { 
+            display: flex; 
+            gap: 5px;
+            align-items: center;
+        }
+        .signal, .wifi, .battery { 
+            width: 18px; 
+            height: 12px; 
+            background: rgba(255,255,255,0.8);
+            border-radius: 2px;
+        }
+
+        .content {
+            padding: 0 30px;
+            height: calc(100% - 44px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%);
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+            margin-bottom: 16px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .welcome-text h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .welcome-text p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .form-container {
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            font-size: 15px;
+            color: #1a1a2e;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        input::placeholder {
+            color: rgba(26, 26, 46, 0.4);
+        }
+
+        input:focus {
+            outline: none;
+            background: #ffffff;
+            border-color: #4ECDC4;
+            box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.15);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .password-toggle:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .custom-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .custom-checkbox.checked {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            border-color: #4CAF50;
+        }
+
+        .custom-checkbox::before {
+            content: '✓';
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .custom-checkbox.checked::before {
+            opacity: 1;
+        }
+
+        .remember-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .forgot-password {
+            font-size: 13px;
+            color: #FFE66D;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            color: #FF6B6B;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%);
+            color: #1a1a2e;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+            margin-bottom: 24px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(255, 107, 107, 0.5);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .divider-text {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 500;
+        }
+
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .social-btn {
+            width: 100%;
+            padding: 14px 20px;
+            background: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1a2e;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .social-btn-google {
+            border-color: #4285F4;
+        }
+
+        .social-btn-google:hover {
+            background: #f8f9fa;
+            border-color: #4285F4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+        }
+
+        .social-btn-facebook {
+            border-color: #1877F2;
+        }
+
+        .social-btn-facebook:hover {
+            background: #f0f4ff;
+            border-color: #1877F2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+        }
+
+        .social-btn:active {
+            transform: translateY(0);
+        }
+
+        .signup-link {
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            animation: fadeIn 0.8s ease-out 0.4s backwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .signup-link a {
+            color: #FFE66D;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signup-link a:hover {
+            color: #FF6B6B;
+        }
+
+        @media (max-width: 375px) {
+            .mobile-frame {
+                border-radius: 0;
+                height: 100vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-frame">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span class="time">9:41</span>
+            <div class="indicators">
+                <div class="signal"></div>
+                <div class="wifi"></div>
+                <div class="battery"></div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Logo -->
+            <div class="logo-container">
+                <div class="logo">📦</div>
+                <div class="welcome-text">
+                    <h1>Bon retour !</h1>
+                    <p>Connectez-vous à votre compte</p>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <div class="form-container">
+                <form id="loginForm">
+                    <!-- Social Login Buttons (Top) -->
+                    <div class="social-buttons" style="margin-bottom: 24px;">
+                        <button type="button" class="social-btn social-btn-google" onclick="socialLogin('google')">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M19.6 10.23c0-.82-.07-1.43-.21-2.05H10v3.72h5.51c-.11.92-.72 2.31-2.08 3.24l-.02.13 3.03 2.34.21.02c1.92-1.77 3.03-4.38 3.03-7.4z" fill="#4285F4"/>
+                                <path d="M10 20c2.7 0 4.96-.88 6.62-2.39l-3.22-2.49c-.85.58-1.98 1-3.4 1-2.61 0-4.82-1.74-5.61-4.13l-.12.01-3.14 2.42-.04.11C2.61 17.91 6.08 20 10 20z" fill="#34A853"/>
+                                <path d="M4.39 11.99c-.2-.58-.32-1.2-.32-1.84 0-.64.11-1.26.31-1.84l-.01-.14-3.18-2.46-.1.05C.41 7.43 0 8.68 0 10c0 1.32.41 2.57 1.1 3.58l3.29-2.59z" fill="#FBBC05"/>
+                                <path d="M10 3.88c1.85 0 3.1.8 3.81 1.47l2.8-2.73C14.96.88 12.7 0 10 0 6.08 0 2.61 2.09 1.1 5.17l3.29 2.59c.79-2.39 3-4.13 5.61-4.13z" fill="#EB4335"/>
+                            </svg>
+                            <span>Continuer avec Google</span>
+                        </button>
+                        <button type="button" class="social-btn social-btn-facebook" onclick="socialLogin('facebook')">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="#1877F2">
+                                <path d="M20 10c0-5.523-4.477-10-10-10S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.563V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z"/>
+                            </svg>
+                            <span>Continuer avec Facebook</span>
+                        </button>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="divider" style="margin: 24px 0;">
+                        <div class="divider-line"></div>
+                        <span class="divider-text">Ou avec email/téléphone</span>
+                        <div class="divider-line"></div>
+                    </div>
+
+                    <!-- Email / Phone -->
+                    <div class="form-group">
+                        <label for="identifier">Email ou téléphone</label>
+                        <input
+                            type="text"
+                            id="identifier"
+                            name="identifier"
+                            placeholder="votre@email.com ou +221 77 123 45 67"
+                            required
+                        />
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label for="password">Mot de passe</label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password"
+                                placeholder="••••••••"
+                                required
+                            />
+                            <button type="button" class="password-toggle" onclick="togglePassword()">👁️</button>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="form-footer">
+                        <div class="remember-me" onclick="toggleRemember()">
+                            <div class="custom-checkbox" id="rememberCheckbox"></div>
+                            <span class="remember-label">Se souvenir</span>
+                        </div>
+                        <a href="#" class="forgot-password" onclick="goToForgotPassword()">Mot de passe oublié ?</a>
+                    </div>
+
+                    <!-- Login Button -->
+                    <button type="submit" class="login-btn">
+                        Se connecter
+                    </button>
+
+                    <!-- Signup Link -->
+                    <div class="signup-link">
+                        Pas encore de compte ? <a href="#" onclick="goToSignup()">S'inscrire</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const input = document.getElementById('password');
+            const button = event.currentTarget;
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.textContent = '👁️‍🗨️';
+            } else {
+                input.type = 'password';
+                button.textContent = '👁️';
+            }
+        }
+
+        function toggleRemember() {
+            const checkbox = document.getElementById('rememberCheckbox');
+            checkbox.classList.toggle('checked');
+        }
+
+        function goToForgotPassword() {
+            event.preventDefault();
+            // Rediriger vers la page de récupération du mot de passe
+            window.location.href = 'oublie.html';
+        }
+
+        function goToSignup() {
+            event.preventDefault();
+            // Rediriger vers la page de choix du type de compte
+            window.location.href = 'index.html';
+        }
+
+        function socialLogin(provider) {
+            alert(`Connexion avec ${provider}`);
+            // Simuler une connexion réussie après connexion sociale
+            setTimeout(() => {
+                window.location.href = 'dashexpediteur.html';
+            }, 1500);
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const identifier = document.getElementById('identifier').value;
+            const password = document.getElementById('password').value;
+
+            if (identifier && password) {
+                try {
+                    // Afficher un loader
+                    const submitButton = document.querySelector('button[type="submit"]');
+                    const originalText = submitButton.textContent;
+                    submitButton.textContent = 'Connexion en cours...';
+                    submitButton.disabled = true;
+
+                    // Appeler l'API de connexion
+                    const response = await fetch('http://localhost:5000/api/v1/auth/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            email: identifier,
+                            password: password
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    console.log('Login response:', result);
+
+                    if (response.ok && result.success) {
+                        console.log('=== LOGIN SUCCESS ===');
+                        console.log('Full response:', result);
+
+                        // Sauvegarder le token et les données utilisateur
+                        const token = result.data.token;
+                        const user = result.data.user;
+
+                        console.log('Token to save:', token);
+                        console.log('User data to save:', user);
+
+                        localStorage.setItem('authToken', token);
+                        localStorage.setItem('userData', JSON.stringify(user));
+
+                        // Vérifier immédiatement après sauvegarde
+                        const savedToken = localStorage.getItem('authToken');
+                        const savedUser = localStorage.getItem('userData');
+
+                        console.log('Verification - Token saved:', savedToken ? 'Yes' : 'No', savedToken);
+                        console.log('Verification - User data saved:', savedUser ? 'Yes' : 'No', savedUser);
+
+                        // Déterminer le dashboard
+                        const userType = user.user_type;
+                        const dashboardUrl = userType === 'expediteur' ? 'dashexpediteur.html' : 'dashgp.html';
+
+                        console.log('User type:', userType);
+                        console.log('Redirecting to:', dashboardUrl);
+
+                        alert('Connexion réussie !\n\nRedirection vers le tableau de bord...');
+
+                        // Rediriger immédiatement après l'alerte
+                        window.location.href = dashboardUrl;
+                    } else {
+                        // Afficher l'erreur
+                        alert('Erreur de connexion:\n\n' + (result.message || 'Email ou mot de passe incorrect'));
+                        submitButton.textContent = originalText;
+                        submitButton.disabled = false;
+                    }
+                } catch (error) {
+                    console.error('Erreur:', error);
+                    alert('Erreur de connexion:\n\nImpossible de se connecter au serveur. Assurez-vous que le backend est démarré.');
+
+                    // Réactiver le bouton
+                    const submitButton = document.querySelector('button[type="submit"]');
+                    submitButton.textContent = 'Se connecter';
+                    submitButton.disabled = false;
+                }
+            }
+        });
+
+        // Animation on load
+        window.addEventListener('load', () => {
+            document.querySelector('.content').style.opacity = '0';
+            
+            setTimeout(() => {
+                document.querySelector('.content').style.transition = 'opacity 0.8s ease';
+                document.querySelector('.content').style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
